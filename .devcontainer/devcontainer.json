@@ -1,0 +1,14 @@
+{
+  "name": "Card Fee Tracker Dashboard",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "label": "Dashboard",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  "postStartCommand": "nohup python3 -m http.server 8000 --directory docs > /tmp/dashboard.log 2>&1 &"
+}
