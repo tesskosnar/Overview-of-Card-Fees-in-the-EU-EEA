@@ -1,0 +1,54 @@
+name: Monthly card fee refresh
+
+on:
+  schedule:
+    # First day of every month at 05:00 UTC.
+    - cron: "0 5 1 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monthly-card-fee-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run official and public-source collection
+        working-directory: scraper
+        env:
+          BRAVE_SEARCH_API_KEY: ${{ secrets.BRAVE_SEARCH_API_KEY }}
+          MEDIA_LOOKBACK_DAYS: "400"
+          BRAVE_RESULTS_PER_QUERY: "20"
+          BRAVE_MAX_QUERIES: "120"
+          GDELT_RESULTS_PER_COUNTRY: "50"
+          MEDIA_PAGE_FETCH_LIMIT: "45"
+          MEDIA_DASHBOARD_MAX_ITEMS: "800"
+        run: python3 main.py
+
+      - name: Commit refreshed data
+        run: |
+          git config user.name "card-fee-tracker-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/data/latest.json docs/data/media_archive.json docs/data/history/*.json
+          if git diff --cached --quiet; then
+            echo "No data changes, nothing to commit."
+          else
+            git commit -m "chore: monthly card fee refresh ($(date -u +%Y-%m-%d))"
+            git push
+          fi
