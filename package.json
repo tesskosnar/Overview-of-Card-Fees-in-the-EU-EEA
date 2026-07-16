@@ -1,0 +1,11 @@
+{
+  "name": "card-fee-tracker-dashboard-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/render_dashboard.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.0.0"
+  }
+}

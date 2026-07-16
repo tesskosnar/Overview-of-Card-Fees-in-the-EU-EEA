@@ -1,0 +1,75 @@
+Valid From:
+Consumer Card Interchange Fees 09-Apr-20
+Payment Product Fee Tier General
+Mastercard Consumer Credit Contactless 0.30%
+Chip 0.30%
+Enhanced Electronic 0.30%
+Merchant UCAF 0.30%
+Full UCAF 0.30%
+MasterPass Wallet 0.30%
+Base 0.30%
+Purchase at ATM (1) 0.30%
+Purchase at ATM (late presentment) (1) 0.30%
+Mastercard Consumer Debit Contactless 0.20%
+Mastercard Consumer Prepaid Chip 0.20%
+Enhanced Electronic 0.20%
+Merchant UCAF 0.20%
+Full UCAF 0.20%
+MasterPass Wallet 0.20%
+Base 0.20%
+Purchase at ATM (1) 0.20%
+Purchase at ATM (late presentment) (1) 0.20%
+Maestro Consumer Contactless 0.20%
+Maestro Consumer Prepaid Chip&PIN 0.20%
+Secure e-commerce 0.20%
+Mail Order /Telephone Order (2) 0.20%
+Base 0.20%
+Petrol (MCC 5541 & 5542) (3) 0.20%
+Purchase at ATM (1) 0.20%
+Purchase at ATM (late presentment) (1) 0.20%
+Debit Mastercard Consumer Contactless 0.20%
+Chip 0.20%
+Enhanced Electronic 0.20%
+Base 0.20%
+Purchase at ATM (1) 0.20%
+Purchase at ATM (late presentment) (1) 0.20%
+(1) Available for MCC 4814, 4900, 6050, 6051
+(2) Credit refunds transactions only
+(3) Only for transactions under EUR50.00
+Germany - Domestic Interchange Fees
+Valid From:
+Commercial Card Interchange Fees 01-Jan-26
+Payment Product Fee Tier General Airlines Petrol Stations Touristic Grocery Stores Household Drugstores Equipment Furniture
+Mastercard World Elite Business Contactless 2.23% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Chip 2.23% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+MasterPass Wallet 2.40% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Enhanced Electronic 2.40% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Base 2.40% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Purchase at ATM (1) 2.23% - - - - - - -
+Purchase at ATM (late presentment) (1) 2.40% - - - - - - -
+Mastercard Corporate Contactless 2.13% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Mastercard World Preferred Chip 2.13% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Debit Mastercard for Business Premium Enhanced Electronic 2.30% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Mastercard Prepaid Business Preferred Base 2.30% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Purchase at ATM (1) 2.13% - - - - - - -
+Purchase at ATM (late presentment) (1) 2.30% - - - - - - -
+Mastercard Professional Card Contactless 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Mastercard Business Chip 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+MasterPass Wallet 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Base 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Purchase at ATM (1) 1.88% - - - - - - -
+Purchase at ATM (late presentment) (1) 2.05% - - - - - - -
+Mastercard Prepaid Commercial Contactless 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Debit Mastercard for Business Chip 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Debit Mastercard Corporate Prepaid Enhanced Electronic 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Base 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Purchase at ATM (1) 1.88% - - - - - - -
+Purchase at ATM (late presentment) (1) 2.05% - - - - - - -
+Mastercard FleetCard Contactless 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+Mastercard Purchasing Card Chip 1.88% 1.45% 0.68% 0.83% 0.83% 1.05% 0.90% 1.19%
+MasterPass Wallet 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Base 2.05% 1.45% 1.00% 0.85% 1.90% 2.05% 2.05% 2.05%
+Purchase at ATM (1) 1.88% - - - - - - -
+Purchase at ATM (late presentment) (1) 2.05% - - - - - - -
+(1) Available for MCC 4814, 4900, 6050, 6051
+Germany - Domestic Interchange Fees
