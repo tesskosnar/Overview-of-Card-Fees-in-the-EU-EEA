@@ -1,0 +1,246 @@
+{
+  "_readme": "Manually researched Mastercard data for ALL 30 EU/EEA countries -- NOT from the automated pipeline, which remains blocked for Mastercard. Fetched and hand-verified by Claude (and, for several countries, sourced by the project owner directly from Mastercard's site) on 16 July 2026; see source_url per country. 'commercial_min'/'commercial_max' is the General-column spread across that country's commercial card products -- real published variation, not an error bar. This is a snapshot as of the date above; Mastercard updates rates periodically (commonly April/October), so treat this as current-at-fetch, not self-updating -- re-run this same research (fetch each country's PDF fresh) whenever you want an update.",
+  "fetched_at": "2026-07-16",
+  "countries": {
+    "DE": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.68,
+      "commercial_max": 2.4,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Germany_Intracountry_Interchange_Fees_New_1_Jan_2026.pdf"
+    },
+    "FR": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/15FranceIntracountryInterchangeFees220121.pdf"
+    },
+    "IT": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "Slightly lower (0.18%/0.28%) for transactions under EUR 5",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Italy_Intracountry_Interchange_Fees_1_Mar_2026.pdf"
+    },
+    "CZ": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.5,
+      "commercial_max": 2.1,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Czech_Republic_Intracountry_Interchange_Fees_1_Jan_2026.pdf"
+    },
+    "PL": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.2,
+      "commercial_max": 0.3,
+      "notes": "Commercial cards priced same as consumer -- notably lower than other countries sampled",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Poland_Intracountry_Interchange_Fees_july_2024.pdf"
+    },
+    "ES": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.23,
+      "commercial_max": 1.05,
+      "notes": "Reduced rate (debit 0.10%, credit 0.20%) for transactions <=EUR 20. Commercial tiered by merchant card volume x category.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Spain_Intracountry_Interchange_Fees_1_Aug_2025.pdf"
+    },
+    "NL": {
+      "consumer_debit": null,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "Consumer DEBIT is a FIXED FEE of EUR 0.02/transaction, not a percentage -- national special provision under IFR Art. 3-4.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Netherlands_Intracountry_Interchange_Fees_1_Aug_2025.pdf"
+    },
+    "AT": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Austria_Intracountry_Interchange_Fees_1_Jan_2026.pdf"
+    },
+    "BE": {
+      "consumer_debit": 0.1,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.4,
+      "commercial_max": 1.9,
+      "notes": "Consumer debit reduced to 0.10% (Max EUR 0.05) -- national special provision.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Belgium_Intracountry_Interchange_Fees_01_Jan_2025.pdf"
+    },
+    "HR": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.75,
+      "commercial_max": 2.2,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Croatia_Intracountry_Interchange_Fees_01012023.pdf"
+    },
+    "LV": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.18,
+      "commercial_max": 1.83,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/27LatviaIntracountryInterchangeFees.pdf"
+    },
+    "HU": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.35,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Hungary_Intracountry_Interchange_Fees_01_Nov_2025.pdf"
+    },
+    "CY": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.9,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Cyprus-Intracountry-Interchange-Fees.pdf"
+    },
+    "DK": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.8,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Denmark_Intracountry_Interchange_Fees_1_Oct_2025.pdf"
+    },
+    "IE": {
+      "consumer_debit": 0.1,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.7,
+      "commercial_max": 1.9,
+      "notes": "Consumer debit reduced to 0.10% -- national special provision.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/21IrelandIntracountryInterchangeFees.pdf"
+    },
+    "LU": {
+      "consumer_debit": 0.12,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "Consumer debit reduced to 0.12% -- national special provision.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/30LuxembourgIntracountryInterchangeFees.pdf"
+    },
+    "PT": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.9,
+      "commercial_max": 1.95,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website-Portugal-Intracountry-Interchange-Fees-1-September-2023.pdf"
+    },
+    "RO": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.7,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website-Romania-Intracountry-Interchange-Fees.pdf"
+    },
+    "SK": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.2,
+      "commercial_max": 1.8,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/44SlovakiaIntracountryInterchangeFees.pdf"
+    },
+    "SI": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/45SloveniaIntracountryInterchangeFees.pdf"
+    },
+    "GR": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.5,
+      "commercial_max": 1.8,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Greece_Intracountry_Interchange_Fees_1_Jan_2026.pdf"
+    },
+    "MT": {
+      "consumer_debit": 0.15,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.3,
+      "commercial_max": 1.9,
+      "notes": "Consumer debit reduced to 0.15% -- national special provision.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Malta_Intracountry_Interchange_Fees_1_Jan_2026.pdf"
+    },
+    "SE": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Sweden-Intracountry-Interchange-Fees_280922.pdf"
+    },
+    "NO": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.4,
+      "commercial_max": 1.9,
+      "notes": "EEA/EFTA member, not EU.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Norway-Intracountry-Interchange-Fees_280922.pdf"
+    },
+    "BG": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.3,
+      "commercial_max": 1.8,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Bulgaria_Intracountry_Interchange_Fees_01_May_2025.pdf"
+    },
+    "FI": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 0.75,
+      "commercial_max": 1.9,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Finland_Intracountry_Interchange_Fees_1_Oct_2025.pdf"
+    },
+    "LT": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.45,
+      "commercial_max": 2.05,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/29LithuaniaIntracountryInterchangeFees.pdf"
+    },
+    "EE": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.05,
+      "commercial_max": 1.8,
+      "notes": "",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/13Estonia.pdf"
+    },
+    "IS": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.25,
+      "commercial_max": 1.9,
+      "notes": "EEA/EFTA member, not EU.",
+      "source_url": "user-provided PDF, 16 July 2026 (Iceland - Domestic Interchange Fees)"
+    },
+    "LI": {
+      "consumer_debit": 0.2,
+      "consumer_credit": 0.3,
+      "commercial_min": 1.4,
+      "commercial_max": 1.8,
+      "notes": "EEA/EFTA member, not EU.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/28LiechtensteinIntracountryInterchangeFees.pdf"
+    }
+  }
+}

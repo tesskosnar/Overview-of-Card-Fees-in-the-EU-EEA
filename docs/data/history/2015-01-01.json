@@ -1,0 +1,816 @@
+{
+  "generated_at": "2015-01-01T00:00:00+00:00",
+  "scope": {
+    "fee_type": "interchange",
+    "networks": [
+      "visa",
+      "mastercard"
+    ],
+    "region": "EU/EEA"
+  },
+  "note": "Historicky bod, NENÍ živě stažený. Zdroj: zpráva Evropské komise SWD(2020) 118 final o dopadu regulace 2015/751, citující studii Ernst & Young / Copenhagen Economics (2020). Je to průměr za celou EU, blended napříč Visa i Mastercard (zdroj to nerozlišuje po sítích), proto je stejná hodnota u obou sítí a u všech zemí -- nejde o skutečné, zemi-specifické číslo z roku 2015, ale o nejlepší dostupný referenční bod. Spotřebitelské sazby pro tento bod chybí záměrně -- IFR se v roce 2015 teprve postupně zaváděl.",
+  "summary": {
+    "visa": {
+      "consumer_debit": null,
+      "consumer_credit": null,
+      "commercial": {
+        "avg": 0.95,
+        "min": 0.95,
+        "max": 0.95,
+        "n_values": 1
+      }
+    },
+    "mastercard": {
+      "consumer_debit": null,
+      "consumer_credit": null,
+      "commercial": {
+        "avg": 0.95,
+        "min": 0.95,
+        "max": 0.95,
+        "n_values": 1
+      }
+    }
+  },
+  "countries": [
+    {
+      "iso2": "AT",
+      "name": "Austria",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "BE",
+      "name": "Belgium",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "BG",
+      "name": "Bulgaria",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "HR",
+      "name": "Croatia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "CY",
+      "name": "Cyprus",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "CZ",
+      "name": "Czech Republic",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "DK",
+      "name": "Denmark",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "EE",
+      "name": "Estonia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "FI",
+      "name": "Finland",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "FR",
+      "name": "France",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "DE",
+      "name": "Germany",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "GR",
+      "name": "Greece",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "HU",
+      "name": "Hungary",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "IE",
+      "name": "Ireland",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "IT",
+      "name": "Italy",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "LV",
+      "name": "Latvia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "LT",
+      "name": "Lithuania",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "LU",
+      "name": "Luxembourg",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "MT",
+      "name": "Malta",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "NL",
+      "name": "Netherlands",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "PL",
+      "name": "Poland",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "PT",
+      "name": "Portugal",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "RO",
+      "name": "Romania",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "SK",
+      "name": "Slovakia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "SI",
+      "name": "Slovenia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "ES",
+      "name": "Spain",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "SE",
+      "name": "Sweden",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "IS",
+      "name": "Iceland",
+      "eu_member": false,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "LI",
+      "name": "Liechtenstein",
+      "eu_member": false,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    },
+    {
+      "iso2": "NO",
+      "name": "Norway",
+      "eu_member": false,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      },
+      "mastercard": {
+        "consumer_debit": null,
+        "consumer_credit": null,
+        "commercial": {
+          "avg": 0.95,
+          "min": 0.95,
+          "max": 0.95,
+          "n_values": 1
+        }
+      }
+    }
+  ]
+}
