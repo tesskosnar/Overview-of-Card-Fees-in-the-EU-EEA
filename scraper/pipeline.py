@@ -221,6 +221,7 @@ class Row:
     label: str
     values: list[float]
     page: int
+    raw_text: str = ""
 
 
 @dataclass
@@ -249,7 +250,7 @@ def _row_from_table_row(cells) -> Row | None:
             label_parts.append(cell)
     if not values:
         return None
-    return Row(label=" ".join(label_parts), values=values, page=-1)
+    return Row(label=" ".join(label_parts), values=values, page=-1, raw_text=" ".join(clean))
 
 
 def _rows_from_text(text: str) -> list[Row]:
@@ -263,7 +264,7 @@ def _rows_from_text(text: str) -> list[Row]:
             continue
         first_pct_pos = PCT_RE.search(line).start()
         label = line[:first_pct_pos].strip(" \t-\u2013")
-        rows.append(Row(label=label, values=vals, page=-1))
+        rows.append(Row(label=label, values=vals, page=-1, raw_text=line))
     return rows
 
 
@@ -317,7 +318,7 @@ def carry_forward_product_prefix(rows: list[Row], product_markers: list[str]) ->
             last_product = r.label
             out.append(r)
         elif last_product:
-            out.append(Row(label=f"{last_product} {r.label}".strip(), values=r.values, page=r.page))
+            out.append(Row(label=f"{last_product} {r.label}".strip(), values=r.values, page=r.page, raw_text=r.raw_text))
         else:
             out.append(r)
     return out
@@ -361,13 +362,32 @@ COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", 
 # the primary/headline average.
 TIER_QUALIFIER_RE = re.compile(
     r"\b(up to|over|less than|more than|tier[\s-]?\d|micro[\s-]?payment|low value|"
-    r"high value|petrol|toll|charity|government|retail|contactless high value)\b",
+    r"high value|petrol|toll|charity|government|retail|contactless high value|"
+    r"sector development|bill payment|meal voucher|fuel|electric vehicle|"
+    r"wholesale|fleet|purchasing|large market|small market|late presentment|"
+    r"large ticket|incentive)\b",
     re.IGNORECASE,
 )
+
+# Some rate sheets state a percentage AND an absolute cap in the same cell
+# (e.g. "0.20% (capped at RON 20.00)", "0.20% (capped at £0.50)"). The
+# percentage alone understates the true cost only for very large
+# transactions, but the cap itself is genuinely useful information that a
+# plain average would silently drop. Surface it as a warning rather than
+# trying to model it numerically (the cap currency/amount varies by country
+# and isn't comparable across them without a transaction-size assumption).
+CAP_RE = re.compile(r"capped at\s+([A-Z]{0,3}\s?[\d.,]+)", re.IGNORECASE)
 
 
 def _is_headline_row(label: str) -> bool:
     return not TIER_QUALIFIER_RE.search(label)
+
+
+def _cap_note(label: str) -> str | None:
+    m = CAP_RE.search(label)
+    if not m:
+        return None
+    return f"rate sheet also states a cap: \"{m.group(0)}\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
 
 
 @dataclass
@@ -403,21 +423,32 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 
     result = CountryRateResult(iso2=iso2, used_table_extraction=parsed.used_table_extraction, warnings=list(parsed.warnings))
 
+    cap_notes_seen = set()
     for row in rows:
         bucket = _classify(row.label)
         headline = _is_headline_row(row.label)
+        cap = _cap_note(row.raw_text or row.label)
+        if cap and cap not in cap_notes_seen and bucket in ("consumer_credit", "consumer_debit"):
+            cap_notes_seen.add(cap)
+            result.warnings.append(cap)
+        # A row can hold several values across unlabeled columns (e.g. a
+        # "General" column followed by a "Government Payments" column that
+        # only appears in the table's header, never repeated per-row). The
+        # keyword check above catches qualifiers that DO show up in the row
+        # text; this positional check is the fallback for ones that don't --
+        # across every rate sheet seen so far, the first (leftmost) value in
+        # a row is consistently the general/standard rate, with narrower
+        # merchant-category or payment-type rates following it.
+        headline_values = [row.values[0]] if headline and row.values else []
         if bucket == "consumer_credit":
             result.consumer_credit.extend(row.values)
-            if headline:
-                result.consumer_credit_headline.extend(row.values)
+            result.consumer_credit_headline.extend(headline_values)
         elif bucket == "consumer_debit":
             result.consumer_debit.extend(row.values)
-            if headline:
-                result.consumer_debit_headline.extend(row.values)
+            result.consumer_debit_headline.extend(headline_values)
         elif bucket == "commercial":
             result.commercial.extend(row.values)
-            if headline:
-                result.commercial_headline.extend(row.values)
+            result.commercial_headline.extend(headline_values)
         else:
             result.unclassified.append((row.label, row.values))
 
