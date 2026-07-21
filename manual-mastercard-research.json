@@ -7,24 +7,27 @@
       "consumer_credit": 0.3,
       "commercial_min": 0.68,
       "commercial_max": 2.4,
-      "notes": "",
-      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Germany_Intracountry_Interchange_Fees_New_1_Jan_2026.pdf"
+      "notes": "Contactless (base Business tier) = 1.88%, notably below the 2.05% Base tier.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Germany_Intracountry_Interchange_Fees_New_1_Jan_2026.pdf",
+      "commercial_contactless": 1.88
     },
     "FR": {
       "consumer_debit": 0.2,
       "consumer_credit": 0.3,
       "commercial_min": 1.25,
       "commercial_max": 1.9,
-      "notes": "",
-      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/15FranceIntracountryInterchangeFees220121.pdf"
+      "notes": "Contactless (base Business tier) = 1.25%, below the 1.65% Base tier.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/15FranceIntracountryInterchangeFees220121.pdf",
+      "commercial_contactless": 1.25
     },
     "IT": {
       "consumer_debit": 0.2,
       "consumer_credit": 0.3,
       "commercial_min": 1.25,
       "commercial_max": 1.9,
-      "notes": "Slightly lower (0.18%/0.28%) for transactions under EUR 5",
-      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Italy_Intracountry_Interchange_Fees_1_Mar_2026.pdf"
+      "notes": "Slightly lower (0.18%/0.28%) for transactions under EUR 5 Contactless (base Business tier) = 1.25%, below the 1.65% Base tier.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Italy_Intracountry_Interchange_Fees_1_Mar_2026.pdf",
+      "commercial_contactless": 1.25
     },
     "CZ": {
       "consumer_debit": 0.2,
@@ -46,9 +49,10 @@
       "consumer_debit": 0.2,
       "consumer_credit": 0.3,
       "commercial_min": 0.23,
-      "commercial_max": 1.05,
-      "notes": "Reduced rate (debit 0.10%, credit 0.20%) for transactions <=EUR 20. Commercial tiered by merchant card volume x category.",
-      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Spain_Intracountry_Interchange_Fees_1_Aug_2025.pdf"
+      "commercial_max": 1.5,
+      "notes": "Reduced rate (debit 0.10%, credit 0.20%) for transactions <=EUR 20. Commercial tiered by merchant card volume (3 tiers) x merchant category, ranging 0.23%-1.05%; Central Travel Solution and Commercial Debit Premium products are flat 1.50% across all tiers (this is the true max, corrected 2026-07-18 after a user-reported discrepancy). No Contactless-specific tier exists for commercial -- Spain prices by merchant category x volume tier instead, so commercial_min/max remain the primary reference.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Spain_Intracountry_Interchange_Fees_1_Aug_2025.pdf",
+      "commercial_contactless": null
     },
     "NL": {
       "consumer_debit": null,
