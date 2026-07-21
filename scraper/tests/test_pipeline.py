@@ -102,6 +102,93 @@ def test_tiered_only_rows_use_capped_max_not_blended_average(tmp_path):
     assert debit_block["min"] == 0.10 and debit_block["max"] == 0.20, "full range must still be preserved"
 
 
+# Romania's rate sheet has a "General" column and a separate "Government
+# Payments" column for the SAME product row -- but "Government Payments"
+# only appears once, in the table header, never repeated in each data row.
+# A per-row keyword check alone can't catch this. The positional rule (first
+# value in a row is the general/headline rate) is the fallback that does.
+ROMANIA_STYLE_ROWS = [
+    ["Product", "Fee Tier", "General", "Government Payments"],
+    ["Visa Consumer Debit", "Contactless", "0.20%", "0.10% capped at RON 20.00"],
+    ["Visa Consumer Credit", "Contactless", "0.30%", "0.20%"],
+]
+
+
+def test_unlabeled_second_column_does_not_pollute_headline_average(tmp_path):
+    pdf_path = tmp_path / "synthetic_romania_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=8)
+    col_widths = [50, 35, 35, 75]
+    row_h = 8
+    for row in ROMANIA_STYLE_ROWS:
+        for text, w in zip(row, col_widths):
+            pdf.cell(w, row_h, text, border=1)
+        pdf.ln(row_h)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "RO")
+    debit_block = pipeline._stat_block(
+        result.consumer_debit,
+        pipeline._headline_for("consumer_debit", result.consumer_debit, result.consumer_debit_headline),
+    )
+    assert result.consumer_debit == [0.20, 0.10], "both published values should still be captured for min/max"
+    assert debit_block["avg"] == 0.20, "the unlabeled Government Payments column must not blend into the headline rate"
+    assert any("capped at" in w for w in result.warnings), "the RON 20.00 cap should surface as a warning"
+
+
+def test_cap_amount_surfaces_as_warning_without_corrupting_the_rate(tmp_path):
+    rows = [
+        ["Product", "Fee Tier", "General"],
+        ["Visa Consumer Debit", "Standard", "0.20% (capped at GBP 0.50)"],
+    ]
+    pdf_path = tmp_path / "synthetic_uk_cap_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in rows:
+        for text, w in zip(row, [55, 60, 70]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "GB")
+    debit_block = pipeline._stat_block(
+        result.consumer_debit,
+        pipeline._headline_for("consumer_debit", result.consumer_debit, result.consumer_debit_headline),
+    )
+    assert debit_block["avg"] == 0.20
+    assert any("capped at" in w and "GBP 0.50" in w for w in result.warnings)
+
+
+# The Netherlands publishes "0.20% capped at EUR 0.02" for consumer debit --
+# a cap so tight it binds on essentially any real transaction over EUR 10,
+# making the percentage figure alone actively misleading. Some rate sheets
+# phrase this as "Max EUR X" rather than "capped at EUR X"; both must be caught.
+@pytest.mark.parametrize("phrasing", [
+    "0.20% (capped at EUR 0.02)",
+    "0.20% Max EUR 0.02",
+    "0.20% (Maximum of EUR 0.02)",
+])
+def test_cap_detection_covers_max_phrasing_variant(tmp_path, phrasing):
+    rows = [
+        ["Product", "Fee Tier", "General"],
+        ["Visa Consumer Debit", "Standard", phrasing],
+    ]
+    pdf_path = tmp_path / "synthetic_nl_cap_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in rows:
+        for text, w in zip(row, [55, 60, 70]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "NL")
+    assert any("EUR 0.02" in w for w in result.warnings), f"cap not detected for phrasing: {phrasing!r}"
+
+
 # ---------------------------------------------------------------
 # discover_visa
 # ---------------------------------------------------------------
@@ -156,3 +243,26 @@ def test_build_output_lists_all_30_countries_even_with_partial_data():
 def test_plausibility_warnings_flag_out_of_range_consumer_rates(bucket, value, should_warn):
     warnings = pipeline.plausibility_warnings(bucket, [value])
     assert bool(warnings) == should_warn
+
+
+def test_min_max_are_attributed_to_the_category_that_produced_them(tmp_path):
+    rows = [
+        ["Product", "Fee Tier", "General", "Petrol", "Airlines"],
+        ["Visa Business Debit", "EMV Chip", "1.85%", "0.68%", "1.35%"],
+        ["Visa Corporate", "Standard", "2.05%", "0.68%", "1.35%"],
+    ]
+    pdf_path = tmp_path / "synthetic_commercial_spread.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in rows:
+        for text, w in zip(row, [55, 30, 25, 25, 25]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "XX")
+    block = pipeline._stat_block(result.commercial, result.commercial_headline, result.commercial_labeled)
+    assert block["min"] == 0.68
+    assert block["max"] == 2.05
+    assert "min_label" in block and "max_label" in block, "range should say WHICH product/category produced each end"
