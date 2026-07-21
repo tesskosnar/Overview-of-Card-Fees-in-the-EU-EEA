@@ -59,6 +59,49 @@ def test_table_extraction_path(tmp_path):
     assert set(result.commercial) == {1.85, 0.68, 1.35, 2.05}
 
 
+# Spain publishes consumer rates as value-tiered rows only ("<=EUR 20" /
+# ">EUR 20"), with NO unqualified "General" row. A naive average of every
+# matched percentage (0.10% and 0.20% for debit) produces 0.15% -- a number
+# that matches neither tier and looked like a parsing bug to a user
+# comparing against the PDF. The fix: prefer the un-tiered row as the
+# headline average where one exists, and fall back to the legally-capped
+# maximum (never the blended average) when every row is conditional.
+SPAIN_TIERED_ROWS = [
+    ["Product", "Fee Tier", "General"],
+    ["Visa Consumer Debit", "Transaction value up to and including EUR 20.00", "0.10%"],
+    ["Visa Consumer Prepaid", "Transactions value over EUR 20.00", "0.20%"],
+    ["Visa Consumer Credit", "Transaction value up to and including EUR 20.00", "0.20%"],
+    ["Visa Consumer Deferred Debit", "Transactions value over EUR 20.00", "0.30%"],
+]
+
+
+def test_tiered_only_rows_use_capped_max_not_blended_average(tmp_path):
+    pdf_path = tmp_path / "synthetic_spain_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    col_widths = [55, 90, 25]
+    row_h = 8
+    for row in SPAIN_TIERED_ROWS:
+        for text, w in zip(row, col_widths):
+            pdf.cell(w, row_h, text, border=1)
+        pdf.ln(row_h)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "ES")
+    debit_block = pipeline._stat_block(
+        result.consumer_debit,
+        pipeline._headline_for("consumer_debit", result.consumer_debit, result.consumer_debit_headline),
+    )
+    credit_block = pipeline._stat_block(
+        result.consumer_credit,
+        pipeline._headline_for("consumer_credit", result.consumer_credit, result.consumer_credit_headline),
+    )
+    assert debit_block["avg"] == 0.20, "should report the standard tier, not the (0.10+0.20)/2=0.15 blend"
+    assert credit_block["avg"] == 0.30, "should report the standard tier, not the (0.20+0.30)/2=0.25 blend"
+    assert debit_block["min"] == 0.10 and debit_block["max"] == 0.20, "full range must still be preserved"
+
+
 # ---------------------------------------------------------------
 # discover_visa
 # ---------------------------------------------------------------
