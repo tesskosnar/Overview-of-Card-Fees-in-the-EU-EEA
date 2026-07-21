@@ -60,7 +60,8 @@
       "commercial_min": 1.25,
       "commercial_max": 1.9,
       "notes": "Consumer DEBIT is a FIXED FEE of EUR 0.02/transaction, not a percentage -- national special provision under IFR Art. 3-4.",
-      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Netherlands_Intracountry_Interchange_Fees_1_Aug_2025.pdf"
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Netherlands_Intracountry_Interchange_Fees_1_Aug_2025.pdf",
+      "consumer_debit_flat_fee": "EUR 0.02"
     },
     "AT": {
       "consumer_debit": 0.2,
