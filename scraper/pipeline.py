@@ -376,7 +376,10 @@ TIER_QUALIFIER_RE = re.compile(
 # plain average would silently drop. Surface it as a warning rather than
 # trying to model it numerically (the cap currency/amount varies by country
 # and isn't comparable across them without a transaction-size assumption).
-CAP_RE = re.compile(r"capped at\s+([A-Z]{0,3}\s?[\d.,]+)", re.IGNORECASE)
+CAP_RE = re.compile(
+    r"(?:capped at|cap of|max(?:imum)?(?:\s+of)?)\s*:?\s*([A-Z]{0,3}\s?[\d.,]+)",
+    re.IGNORECASE,
+)
 
 
 def _is_headline_row(label: str) -> bool:
@@ -400,10 +403,26 @@ class CountryRateResult:
     consumer_debit_headline: list[float] = field(default_factory=list)
     consumer_credit_headline: list[float] = field(default_factory=list)
     commercial_headline: list[float] = field(default_factory=list)
+    consumer_debit_labeled: list[tuple[str, float]] = field(default_factory=list)
+    consumer_credit_labeled: list[tuple[str, float]] = field(default_factory=list)
+    commercial_labeled: list[tuple[str, float]] = field(default_factory=list)
     unclassified: list[tuple[str, list[float]]] = field(default_factory=list)
     used_table_extraction: bool = False
     warnings: list[str] = field(default_factory=list)
     source_url: str | None = None
+
+
+def _clean_category_label(row_label: str, product_prefix_hint: str) -> str:
+    """Strip the repeated product name (e.g. "Visa Consumer Debit") off a
+    row's label so what's left is just the merchant-category/tier part
+    (e.g. "Petrol", "Retail Tier 3") -- the bit that actually explains why
+    this particular value is the min or the max."""
+    low = row_label.lower()
+    for hint in product_prefix_hint.split("|"):
+        hint = hint.strip()
+        if hint and low.startswith(hint):
+            return row_label[len(hint):].strip(" -\u2013") or "General"
+    return row_label.strip() or "General"
 
 
 def _classify(label: str) -> str:
@@ -440,15 +459,20 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         # a row is consistently the general/standard rate, with narrower
         # merchant-category or payment-type rates following it.
         headline_values = [row.values[0]] if headline and row.values else []
+        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS))
+        labeled = [(category_label, v) for v in row.values]
         if bucket == "consumer_credit":
             result.consumer_credit.extend(row.values)
             result.consumer_credit_headline.extend(headline_values)
+            result.consumer_credit_labeled.extend(labeled)
         elif bucket == "consumer_debit":
             result.consumer_debit.extend(row.values)
             result.consumer_debit_headline.extend(headline_values)
+            result.consumer_debit_labeled.extend(labeled)
         elif bucket == "commercial":
             result.commercial.extend(row.values)
             result.commercial_headline.extend(headline_values)
+            result.commercial_labeled.extend(labeled)
         else:
             result.unclassified.append((row.label, row.values))
 
@@ -474,16 +498,25 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 CATEGORIES = ["consumer_debit", "consumer_credit", "commercial"]
 
 
-def _stat_block(all_values: list[float], headline_values: list[float] | None = None):
+def _stat_block(all_values: list[float], headline_values: list[float] | None = None, labeled_values: list[tuple[str, float]] | None = None):
     if not all_values:
         return None
     avg_source = headline_values if headline_values else all_values
-    return {
+    block = {
         "avg": round(statistics.mean(avg_source), 4),
         "min": round(min(all_values), 4),
         "max": round(max(all_values), 4),
         "n_values": len(all_values),
     }
+    if labeled_values:
+        min_v, max_v = block["min"], block["max"]
+        min_match = next((lbl for lbl, v in labeled_values if round(v, 4) == min_v), None)
+        max_match = next((lbl for lbl, v in labeled_values if round(v, 4) == max_v), None)
+        if min_match:
+            block["min_label"] = min_match
+        if max_match:
+            block["max_label"] = max_match
+    return block
 
 
 # consumer_debit/consumer_credit are legally capped EU-wide (IFR Art. 3-4) at
@@ -541,9 +574,9 @@ def build_country_table(results: list) -> list[dict[str, Any]]:
     for r in results:
         entry = by_iso2[r.iso2]
         entry[r.network] = {
-            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline)),
-            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline)),
-            "commercial": _stat_block(r.commercial, r.commercial_headline),
+            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline), r.consumer_debit_labeled),
+            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline), r.consumer_credit_labeled),
+            "commercial": _stat_block(r.commercial, r.commercial_headline, r.commercial_labeled),
             "source_url": r.source_url,
             "used_table_extraction": r.used_table_extraction,
             "warnings": r.warnings,
