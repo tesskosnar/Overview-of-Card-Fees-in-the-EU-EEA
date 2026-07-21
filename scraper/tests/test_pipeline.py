@@ -294,3 +294,45 @@ def test_flat_fee_row_surfaces_as_warning_instead_of_vanishing(tmp_path):
     assert result.consumer_debit == [], "a bare currency amount is not a percentage and must not be averaged as one"
     assert result.consumer_credit == [0.30]
     assert any("flat fee" in w and "EUR 0.02" in w for w in result.warnings)
+
+
+# Commercial rate sheets bundle many genuinely different card tiers
+# (base Business, Platinum, Infinite, Corporate) into one table. Averaging
+# every tier together (as flagged by a user reviewing Austria's real PDF)
+# produces a number matching no card any merchant actually holds. The base
+# "Business" tier should drive the headline average; premium tiers still
+# widen the min/max range, they just don't get blended into the average.
+AUSTRIA_STYLE_COMMERCIAL_ROWS = [
+    ["Product", "Fee Tier", "General"],
+    ["Visa Business Debit", "EMV Chip", "1.30%"],
+    ["", "Electronic Commerce", "1.65%"],
+    ["", "Standard", "1.65%"],
+    ["Visa Platinum Business Debit", "EMV Chip", "1.55%"],
+    ["", "Electronic Commerce", "1.90%"],
+    ["", "Standard", "1.90%"],
+    ["Visa Infinite Business Debit", "EMV Chip", "1.65%"],
+    ["", "Electronic Commerce", "2.00%"],
+    ["", "Standard", "2.00%"],
+]
+
+
+def test_premium_commercial_tiers_excluded_from_headline_average(tmp_path):
+    pdf_path = tmp_path / "synthetic_austria_commercial.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in AUSTRIA_STYLE_COMMERCIAL_ROWS:
+        for text, w in zip(row, [60, 50, 40]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "AT")
+    block = pipeline._stat_block(result.commercial, result.commercial_headline, result.commercial_labeled)
+
+    assert 1.90 not in result.commercial_headline and 2.00 not in result.commercial_headline, (
+        "Platinum/Infinite values must not be in the headline set"
+    )
+    assert block["avg"] < 1.6, f"headline avg {block['avg']} is still pulled up by premium tiers"
+    assert block["max"] == 2.00, "premium tiers must still widen the range"
+    assert block["min"] == 1.30
