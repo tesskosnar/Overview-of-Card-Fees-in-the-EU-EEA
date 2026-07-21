@@ -351,6 +351,24 @@ CONSUMER_CREDIT_HINTS = ["consumer credit", "consumer deferred debit"]
 CONSUMER_DEBIT_HINTS = ["consumer debit", "consumer prepaid", "v pay debit", "v pay prepaid"]
 COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", "infinite"]
 
+# Value-conditional qualifiers (small-transaction discounts, merchant-volume
+# tiers, category-specific surcharges/discounts) describe a SPECIAL rate for
+# a specific condition, not the headline rate. A country like Spain publishes
+# both a "<= EUR 20" discounted tier and the standard tier for the same
+# product; averaging them together produces a number that matches neither
+# the EU-cap headline rate nor any single real transaction. These rows still
+# count toward min/max (they're real, published rates) but are excluded from
+# the primary/headline average.
+TIER_QUALIFIER_RE = re.compile(
+    r"\b(up to|over|less than|more than|tier[\s-]?\d|micro[\s-]?payment|low value|"
+    r"high value|petrol|toll|charity|government|retail|contactless high value)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_headline_row(label: str) -> bool:
+    return not TIER_QUALIFIER_RE.search(label)
+
 
 @dataclass
 class CountryRateResult:
@@ -359,6 +377,9 @@ class CountryRateResult:
     consumer_debit: list[float] = field(default_factory=list)
     consumer_credit: list[float] = field(default_factory=list)
     commercial: list[float] = field(default_factory=list)
+    consumer_debit_headline: list[float] = field(default_factory=list)
+    consumer_credit_headline: list[float] = field(default_factory=list)
+    commercial_headline: list[float] = field(default_factory=list)
     unclassified: list[tuple[str, list[float]]] = field(default_factory=list)
     used_table_extraction: bool = False
     warnings: list[str] = field(default_factory=list)
@@ -384,12 +405,19 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 
     for row in rows:
         bucket = _classify(row.label)
+        headline = _is_headline_row(row.label)
         if bucket == "consumer_credit":
             result.consumer_credit.extend(row.values)
+            if headline:
+                result.consumer_credit_headline.extend(row.values)
         elif bucket == "consumer_debit":
             result.consumer_debit.extend(row.values)
+            if headline:
+                result.consumer_debit_headline.extend(row.values)
         elif bucket == "commercial":
             result.commercial.extend(row.values)
+            if headline:
+                result.commercial_headline.extend(row.values)
         else:
             result.unclassified.append((row.label, row.values))
 
@@ -415,10 +443,34 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 CATEGORIES = ["consumer_debit", "consumer_credit", "commercial"]
 
 
-def _stat_block(values: list[float]):
-    if not values:
+def _stat_block(all_values: list[float], headline_values: list[float] | None = None):
+    if not all_values:
         return None
-    return {"avg": round(statistics.mean(values), 4), "min": round(min(values), 4), "max": round(max(values), 4), "n_values": len(values)}
+    avg_source = headline_values if headline_values else all_values
+    return {
+        "avg": round(statistics.mean(avg_source), 4),
+        "min": round(min(all_values), 4),
+        "max": round(max(all_values), 4),
+        "n_values": len(all_values),
+    }
+
+
+# consumer_debit/consumer_credit are legally capped EU-wide (IFR Art. 3-4) at
+# 0.20%/0.30%. Any row is at or below that cap; discounted/conditional tiers
+# are always <= the standard rate, never above. So when EVERY captured row
+# for these two categories carries a tier qualifier (e.g. Spain, where both
+# the "<=EUR 20" and ">EUR 20" tiers have qualifying language), the max
+# observed value is a safe, legally-grounded proxy for the standard rate --
+# unlike commercial, which has no cap and no such guarantee.
+CAPPED_CATEGORIES = {"consumer_debit", "consumer_credit"}
+
+
+def _headline_for(category: str, all_values: list[float], headline_values: list[float]) -> list[float]:
+    if headline_values:
+        return headline_values
+    if category in CAPPED_CATEGORIES and all_values:
+        return [max(all_values)]
+    return []
 
 
 def build_summary(results: list) -> dict[str, Any]:
@@ -432,7 +484,9 @@ def build_summary(results: list) -> dict[str, Any]:
         for category in CATEGORIES:
             per_country_avgs = []
             for r in network_results:
-                block = _stat_block(getattr(r, category))
+                all_vals = getattr(r, category)
+                headline = _headline_for(category, all_vals, getattr(r, f"{category}_headline", []))
+                block = _stat_block(all_vals, headline)
                 if block:
                     per_country_avgs.append(block["avg"])
             if per_country_avgs:
@@ -456,9 +510,9 @@ def build_country_table(results: list) -> list[dict[str, Any]]:
     for r in results:
         entry = by_iso2[r.iso2]
         entry[r.network] = {
-            "consumer_debit": _stat_block(r.consumer_debit),
-            "consumer_credit": _stat_block(r.consumer_credit),
-            "commercial": _stat_block(r.commercial),
+            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline)),
+            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline)),
+            "commercial": _stat_block(r.commercial, r.commercial_headline),
             "source_url": r.source_url,
             "used_table_extraction": r.used_table_extraction,
             "warnings": r.warnings,
