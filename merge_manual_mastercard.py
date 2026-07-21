@@ -42,7 +42,9 @@ def commercial_block(data):
     lo, hi = data.get("commercial_min"), data.get("commercial_max")
     if lo is None or hi is None:
         return None  # e.g. Bulgaria: consumer confirmed, commercial not found
-    return block(statistics.mean([lo, hi]), lo, hi)
+    contactless = data.get("commercial_contactless")
+    avg = contactless if contactless is not None else statistics.mean([lo, hi])
+    return block(avg, lo, hi)
 
 
 def main():
