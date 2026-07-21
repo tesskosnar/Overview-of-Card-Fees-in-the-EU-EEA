@@ -341,3 +341,49 @@ def test_premium_commercial_tiers_excluded_from_headline_average(tmp_path):
     assert block["avg"] < 1.6, f"headline avg {block['avg']} is still pulled up by premium tiers"
     assert block["max"] == 2.00, "premium tiers must still widen the range"
     assert block["min"] == 1.30
+
+
+# Spain's real PDF has a commercial merchant-category table (Petrol Station,
+# Night Club, Retailer...) directly below the consumer section, where rows
+# don't repeat a product name. carry_forward_product_prefix() then attaches
+# the last-seen "Consumer Credit" label to all of them, pulling their much
+# higher rates (0.65-0.76%) into the consumer_credit bucket -- a user
+# reviewing the real PDF caught this by hand. consumer_debit/credit are
+# legally capped EU-wide, so anything over the cap in those buckets is
+# contamination, never a genuine rate, and must be dropped rather than
+# averaged in or picked by the capped-category max fallback.
+SPAIN_CONTAMINATION_ROWS = [
+    ["Product", "Fee Tier", "General"],
+    ["Visa Consumer Debit", "Transaction value up to and including EUR 20.00", "0.10%"],
+    ["Visa Consumer Prepaid", "Transactions value over EUR 20.00", "0.20%"],
+    ["Visa Consumer Credit", "Transaction value up to and including EUR 20.00", "0.20%"],
+    ["Visa Consumer Deferred Debit", "Transactions value over EUR 20.00", "0.30%"],
+    ["Non-Sector Specific", "Standard", "0.76%"],
+    ["Sector Specific", "Retailer - Food", "0.65%"],
+    ["", "Retailer - Other", "0.76%"],
+    ["", "Petrol Station", "0.65%"],
+    ["", "Night Club", "0.76%"],
+]
+
+
+def test_unlabeled_commercial_rows_do_not_contaminate_capped_consumer_buckets(tmp_path):
+    pdf_path = tmp_path / "synthetic_spain_contamination.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=8)
+    for row in SPAIN_CONTAMINATION_ROWS:
+        for text, w in zip(row, [60, 90, 25]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "ES")
+    assert 0.76 not in result.consumer_credit and 0.65 not in result.consumer_credit, (
+        "commercial merchant-category values must never end up in consumer_credit"
+    )
+    block = pipeline._stat_block(
+        result.consumer_credit,
+        pipeline._headline_for("consumer_credit", result.consumer_credit, result.consumer_credit_headline),
+    )
+    assert block["avg"] == 0.30, f"expected the real EU-capped rate, got {block['avg']}"
+    assert any("dropped" in w and "consumer credit" in w for w in result.warnings)
