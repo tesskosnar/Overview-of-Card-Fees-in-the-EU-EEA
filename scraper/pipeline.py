@@ -25,7 +25,7 @@ import re
 import statistics
 import time
 import urllib.robotparser
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import urljoin, urlparse
@@ -506,6 +506,31 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
             headline_values = []  # premium tier: counts toward range, not the headline blend
         category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS))
+
+        # consumer_debit/consumer_credit are legally capped EU-wide (0.20%/
+        # 0.30%, +/- a small buffer for documented rounding). A value above
+        # that ceiling in these buckets is never a genuine consumer rate --
+        # it's contamination, almost always from a commercial merchant-
+        # category table (Petrol Station, Night Club, Retailer...) whose
+        # rows don't repeat a product name and so inherit a stale "Consumer
+        # Credit" prefix carried forward from many rows above. Strip these
+        # out entirely rather than let them corrupt the range or, worse,
+        # get selected by the capped-category max-value fallback.
+        if bucket in IFR_CAP:
+            ceiling = IFR_CAP[bucket] + 0.02
+            in_range = [v for v in row.values if v <= ceiling]
+            out_of_range = [v for v in row.values if v > ceiling]
+            if out_of_range:
+                note = (
+                    f"dropped {len(out_of_range)} value(s) over {ceiling:.2f}% from {bucket.replace('_', ' ')} "
+                    f"(e.g. {out_of_range[0]}%) -- looks like a mis-attributed commercial/merchant-category row, "
+                    "not a real consumer rate; verify against the source PDF if unsure"
+                )
+                if note not in result.warnings:
+                    result.warnings.append(note)
+            row = replace(row, values=in_range)
+            headline_values = [v for v in headline_values if v <= ceiling]
+
         labeled = [(category_label, v) for v in row.values]
         if bucket == "consumer_credit":
             result.consumer_credit.extend(row.values)
