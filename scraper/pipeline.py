@@ -433,6 +433,9 @@ class CountryRateResult:
     consumer_debit_labeled: list[tuple[str, float]] = field(default_factory=list)
     consumer_credit_labeled: list[tuple[str, float]] = field(default_factory=list)
     commercial_labeled: list[tuple[str, float]] = field(default_factory=list)
+    consumer_debit_flat_fee: str | None = None
+    consumer_credit_flat_fee: str | None = None
+    commercial_flat_fee: str | None = None
     unclassified: list[tuple[str, list[float]]] = field(default_factory=list)
     used_table_extraction: bool = False
     warnings: list[str] = field(default_factory=list)
@@ -481,9 +484,11 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         if not row.values and bucket in ("consumer_credit", "consumer_debit", "commercial"):
             m = FLAT_FEE_RE.search(row.raw_text)
             if m:
+                amount = m.group(0)
+                setattr(result, f"{bucket}_flat_fee", amount)
                 note = (
-                    f"rate sheet states a flat fee (\"{m.group(0)}\") for {bucket.replace('_', ' ')}, "
-                    "not a percentage -- not counted in the average/range shown here, check the source PDF"
+                    f"rate sheet states a flat fee ({amount}) for {bucket.replace('_', ' ')}, "
+                    "not a percentage -- shown as a fixed amount instead of %, not counted in the range"
                 )
                 if note not in flat_fee_notes_seen:
                     flat_fee_notes_seen.add(note)
@@ -539,9 +544,9 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 CATEGORIES = ["consumer_debit", "consumer_credit", "commercial"]
 
 
-def _stat_block(all_values: list[float], headline_values: list[float] | None = None, labeled_values: list[tuple[str, float]] | None = None):
+def _stat_block(all_values: list[float], headline_values: list[float] | None = None, labeled_values: list[tuple[str, float]] | None = None, flat_fee: str | None = None):
     if not all_values:
-        return None
+        return {"flat_fee": flat_fee} if flat_fee else None
     avg_source = headline_values if headline_values else all_values
     block = {
         "avg": round(statistics.mean(avg_source), 4),
@@ -549,6 +554,8 @@ def _stat_block(all_values: list[float], headline_values: list[float] | None = N
         "max": round(max(all_values), 4),
         "n_values": len(all_values),
     }
+    if flat_fee:
+        block["flat_fee"] = flat_fee
     if labeled_values:
         min_v, max_v = block["min"], block["max"]
         min_match = next((lbl for lbl, v in labeled_values if round(v, 4) == min_v), None)
@@ -615,9 +622,9 @@ def build_country_table(results: list) -> list[dict[str, Any]]:
     for r in results:
         entry = by_iso2[r.iso2]
         entry[r.network] = {
-            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline), r.consumer_debit_labeled),
-            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline), r.consumer_credit_labeled),
-            "commercial": _stat_block(r.commercial, r.commercial_headline, r.commercial_labeled),
+            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline), r.consumer_debit_labeled, r.consumer_debit_flat_fee),
+            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline), r.consumer_credit_labeled, r.consumer_credit_flat_fee),
+            "commercial": _stat_block(r.commercial, r.commercial_headline, r.commercial_labeled, r.commercial_flat_fee),
             "source_url": r.source_url,
             "used_table_extraction": r.used_table_extraction,
             "warnings": r.warnings,
