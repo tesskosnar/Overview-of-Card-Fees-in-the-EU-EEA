@@ -293,7 +293,12 @@ def test_flat_fee_row_surfaces_as_warning_instead_of_vanishing(tmp_path):
     result = pipeline.parse_visa(pdf_path.read_bytes(), "NL")
     assert result.consumer_debit == [], "a bare currency amount is not a percentage and must not be averaged as one"
     assert result.consumer_credit == [0.30]
-    assert any("flat fee" in w and "EUR 0.02" in w for w in result.warnings)
+    assert any("flat fee" in w for w in result.warnings)
+    assert result.consumer_debit_flat_fee is not None and "0.02" in result.consumer_debit_flat_fee, (
+        "the flat fee amount must be captured in a structured field, not just buried in the warning text"
+    )
+    block = pipeline._stat_block(result.consumer_debit, flat_fee=result.consumer_debit_flat_fee)
+    assert block == {"flat_fee": result.consumer_debit_flat_fee}, "stat_block must surface flat_fee even with no % average"
 
 
 # Commercial rate sheets bundle many genuinely different card tiers
