@@ -215,6 +215,17 @@ def discover_visa(html: str, base_url: str, countries: list[Country]) -> dict[st
 
 PCT_RE = re.compile(r"(\d{1,2}[.,]\d{1,3})\s*%")
 
+# A handful of countries publish a flat currency fee for a product instead
+# of a percentage at all (Netherlands consumer debit: "EUR 0.02" per
+# transaction, both on Visa and Mastercard -- confirmed directly from each
+# network's own PDF, not inferred). Since the rest of this parser is built
+# entirely around percentage matching, a row like this has NO "%" anywhere
+# and silently produces zero values -- the row just vanishes with no error,
+# which is worse than a wrong number because nothing ever flags it. This
+# regex exists purely so parse_visa() can notice the row had *some* rate
+# information and say so, rather than going quiet.
+FLAT_FEE_RE = re.compile(r"(?:€|EUR|GBP|£)\s?\d+[.,]\d{1,2}(?!\s?%)", re.IGNORECASE)
+
 
 @dataclass
 class Row:
@@ -248,9 +259,14 @@ def _row_from_table_row(cells) -> Row | None:
             values.extend(found)
         else:
             label_parts.append(cell)
+    raw = " ".join(clean)
     if not values:
-        return None
-    return Row(label=" ".join(label_parts), values=values, page=-1, raw_text=" ".join(clean))
+        # No percentage anywhere in this row. Only worth keeping if it looks
+        # like a flat-fee row (a bare currency amount) -- otherwise it's
+        # genuinely just a label/header row with nothing to report.
+        if not FLAT_FEE_RE.search(raw):
+            return None
+    return Row(label=" ".join(label_parts), values=values, page=-1, raw_text=raw)
 
 
 def _rows_from_text(text: str) -> list[Row]:
@@ -443,6 +459,7 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
     result = CountryRateResult(iso2=iso2, used_table_extraction=parsed.used_table_extraction, warnings=list(parsed.warnings))
 
     cap_notes_seen = set()
+    flat_fee_notes_seen = set()
     for row in rows:
         bucket = _classify(row.label)
         headline = _is_headline_row(row.label)
@@ -450,6 +467,17 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         if cap and cap not in cap_notes_seen and bucket in ("consumer_credit", "consumer_debit"):
             cap_notes_seen.add(cap)
             result.warnings.append(cap)
+        if not row.values and bucket in ("consumer_credit", "consumer_debit", "commercial"):
+            m = FLAT_FEE_RE.search(row.raw_text)
+            if m:
+                note = (
+                    f"rate sheet states a flat fee (\"{m.group(0)}\") for {bucket.replace('_', ' ')}, "
+                    "not a percentage -- not counted in the average/range shown here, check the source PDF"
+                )
+                if note not in flat_fee_notes_seen:
+                    flat_fee_notes_seen.add(note)
+                    result.warnings.append(note)
+            continue  # nothing numeric to add to any bucket
         # A row can hold several values across unlabeled columns (e.g. a
         # "General" column followed by a "Government Payments" column that
         # only appears in the table's header, never repeated per-row). The
