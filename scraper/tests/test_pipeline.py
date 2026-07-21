@@ -266,3 +266,31 @@ def test_min_max_are_attributed_to_the_category_that_produced_them(tmp_path):
     assert block["min"] == 0.68
     assert block["max"] == 2.05
     assert "min_label" in block and "max_label" in block, "range should say WHICH product/category produced each end"
+
+
+# The Netherlands publishes consumer debit as a bare flat fee ("EUR 0.02"),
+# not a percentage, on BOTH Visa and Mastercard -- confirmed directly from
+# each network's own PDF. Since every other part of this parser is built
+# around finding "%" patterns, a row like this previously vanished with
+# zero values and zero explanation. It must now surface as a warning
+# instead of silently disappearing.
+def test_flat_fee_row_surfaces_as_warning_instead_of_vanishing(tmp_path):
+    rows = [
+        ["Product", "Fee Tier", "General"],
+        ["Visa Consumer Debit", "Contactless", "EUR 0.02"],
+        ["Visa Consumer Credit", "Contactless", "0.30%"],
+    ]
+    pdf_path = tmp_path / "synthetic_netherlands_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in rows:
+        for text, w in zip(row, [55, 60, 60]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "NL")
+    assert result.consumer_debit == [], "a bare currency amount is not a percentage and must not be averaged as one"
+    assert result.consumer_credit == [0.30]
+    assert any("flat fee" in w and "EUR 0.02" in w for w in result.warnings)
