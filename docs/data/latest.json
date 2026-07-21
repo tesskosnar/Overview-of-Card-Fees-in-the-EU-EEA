@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T12:41:56+00:00",
+  "generated_at": "2026-07-21T12:54:35+00:00",
   "scope": {
     "fee_type": "interchange",
     "networks": [
@@ -73,19 +73,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/austria-apr25.pdf",
         "used_table_extraction": true,
@@ -127,19 +133,25 @@
           "avg": 0.1,
           "min": 0.1,
           "max": 0.1,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.175,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/belgium-apr25.pdf",
         "used_table_extraction": true,
@@ -185,19 +197,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 4
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nElectronic Commerce\nStandard"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nElectronic Commerce\nStandard"
         },
         "commercial": {
           "avg": 1.63,
           "min": 0.2,
           "max": 1.85,
-          "n_values": 77
+          "n_values": 77,
+          "min_label": "Business Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard BGN 0.40",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard BGN 0.40"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/bulgaria-apr25.pdf",
         "used_table_extraction": true,
@@ -242,19 +260,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Secure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Secure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Secure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Secure\nNon-Secure"
         },
         "commercial": {
           "avg": 2.1533,
           "min": 0.3,
           "max": 2.4,
-          "n_values": 40
+          "n_values": 40,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/croatia-apr25.pdf",
         "used_table_extraction": true,
@@ -296,19 +320,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nNon-Secure"
         },
         "commercial": {
           "avg": 1.85,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 42
+          "n_values": 42,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Platinum Business Debit\nVisa Platinum Business Prepaid\nVisa Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/cyprus-apr25.pdf",
         "used_table_extraction": true,
@@ -350,19 +380,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.77,
           "min": 0.3,
           "max": 1.95,
-          "n_values": 36
+          "n_values": 36,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/czech-apr25.pdf",
         "used_table_extraction": true,
@@ -406,19 +442,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 4
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 91
+          "n_values": 91,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/denmark-apr25.pdf",
         "used_table_extraction": true,
@@ -462,19 +504,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/estonia-apr25.pdf",
         "used_table_extraction": true,
@@ -516,19 +564,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 79
+          "n_values": 79,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/january-26/fi-fees-and-interchange-jan25.pdf",
         "used_table_extraction": true,
@@ -570,19 +624,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Low Value (≤€15.00)\nHigh Value (>€15.00)",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Low Value (≤€15.00)\nHigh Value (>€15.00)"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value (≤€15.00)\nHigh Value (>€15.00)",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value (≤€15.00)\nHigh Value (>€15.00)"
         },
         "commercial": {
           "avg": 1.4444,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 88
+          "n_values": 88,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/may-2026/fr-interchange-fee-may26.pdf",
         "used_table_extraction": true,
@@ -624,19 +684,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.97,
           "min": 0.2,
           "max": 2.4,
-          "n_values": 71
+          "n_values": 71,
+          "min_label": "Purchasing EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard Level 2 - Fuel Only EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/january-26/uk-germany-jan-26.pdf",
         "used_table_extraction": true,
@@ -678,19 +744,25 @@
           "avg": 0.2,
           "min": 0.1,
           "max": 0.2,
-          "n_values": 4
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.15,
           "max": 0.3,
-          "n_values": 4
+          "n_values": 4,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.5125,
           "min": 0.15,
           "max": 2.05,
-          "n_values": 60
+          "n_values": 60,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Platinum Business Debit and Prepaid\nVisa Infinite Business Debit and Prepaid\nVisa Platinum Business Credit and Deferred Debit\nVisa Infinite Business Credit and Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/greece-apr25.pdf",
         "used_table_extraction": true,
@@ -734,19 +806,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nStandard"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard"
         },
         "commercial": {
           "avg": 1.51,
           "min": 0.3,
           "max": 1.95,
-          "n_values": 66
+          "n_values": 66,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/hungary-apr25.pdf",
         "used_table_extraction": true,
@@ -790,19 +868,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/iceland-apr25.pdf",
         "used_table_extraction": true,
@@ -845,19 +929,25 @@
           "avg": 0.1,
           "min": 0.1,
           "max": 0.1,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "commercial": {
           "avg": 1.03,
           "min": 0.2,
           "max": 1.9,
-          "n_values": 64
+          "n_values": 64,
+          "min_label": "Business Debit\nVisa Business Prepaid Card Present - Contactless1\nCard Present - EMV® Chip\nCard Not Present\nStandard",
+          "max_label": "Platinum Business Credit\nVisa Platinum Business Deferred Debit\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit Card Present - Contactless\nCard Present - EMV® Chip\nCard Not Present\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/ireland-apr25.pdf",
         "used_table_extraction": true,
@@ -903,19 +993,25 @@
           "avg": 0.2,
           "min": 0.09,
           "max": 0.2,
-          "n_values": 17
+          "n_values": 17,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Low Value < €5.00\nContactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Low Value < €5.00\nContactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.135,
           "max": 0.3,
-          "n_values": 11
+          "n_values": 11,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value < €5.00\nContactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value < €5.00\nContactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.51,
           "min": 0.27,
           "max": 2.0,
-          "n_values": 68
+          "n_values": 68,
+          "min_label": "Business Credit - Small Market Expense Low Value < €5.00\nStandard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/italy-aug25.pdf",
         "used_table_extraction": true,
@@ -963,19 +1059,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/latvia-apr25.pdf",
         "used_table_extraction": true,
@@ -1017,19 +1119,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/liechtenstein-apr25.pdf",
         "used_table_extraction": true,
@@ -1072,19 +1180,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/lithuania-apr25.pdf",
         "used_table_extraction": true,
@@ -1126,19 +1240,25 @@
           "avg": 0.12,
           "min": 0.12,
           "max": 0.12,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/luxembourg-apr25.pdf",
         "used_table_extraction": true,
@@ -1184,19 +1304,25 @@
           "avg": 0.15,
           "min": 0.15,
           "max": 0.15,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.49,
           "min": 0.3,
           "max": 1.85,
-          "n_values": 37
+          "n_values": 37,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Platinum Business Debit\nVisa Platinum Business Prepaid\nVisa Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard € 0.25"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/malta-apr25.pdf",
         "used_table_extraction": true,
@@ -1240,13 +1366,17 @@
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 100
+          "n_values": 100,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/netherlands-apr25.pdf",
         "used_table_extraction": true,
@@ -1286,19 +1416,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 107
+          "n_values": 107,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/norway-apr25.pdf",
         "used_table_extraction": true,
@@ -1341,19 +1477,25 @@
           "avg": 0.2,
           "min": 0.01,
           "max": 0.2,
-          "n_values": 4
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.01,
           "max": 0.3,
-          "n_values": 5
+          "n_values": 5,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard"
         },
         "commercial": {
           "avg": 0.2667,
           "min": 0.01,
           "max": 0.3,
-          "n_values": 37
+          "n_values": 37,
+          "min_label": "Business Debit\nVisa Business Prepaid Electronic\nStandard",
+          "max_label": "Business Credit\nVisa Business Deferred Debit Electronic\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/poland-apr25.pdf",
         "used_table_extraction": true,
@@ -1402,19 +1544,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 3
+          "n_values": 3,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless Low Value\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless Low Value\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 3
+          "n_values": 3,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless Low Value\nSecure1\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless Low Value\nSecure1\nNon-Secure"
         },
         "commercial": {
           "avg": 1.255,
           "min": 0.2,
           "max": 2.0,
-          "n_values": 148
+          "n_values": 148,
+          "min_label": "Business Debit\nVisa Business Prepaid EMV Chip (incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Corporate7\nVisa Purchasing EMV Chip (incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/portugal-apr25.pdf",
         "used_table_extraction": true,
@@ -1456,19 +1604,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 1.0,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure Romania Meal Voucher"
         },
         "commercial": {
           "avg": 1.8816,
           "min": 0.1,
           "max": 2.1,
-          "n_values": 107
+          "n_values": 107,
+          "min_label": "Business Credit\nVisa Business Deferred Debit EMV Chip (Incl. Contactless) 0.65 RON",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard 0.65 RON"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/romania-apr25.pdf",
         "used_table_extraction": true,
@@ -1513,19 +1667,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Standard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Standard"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Standard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Standard"
         },
         "commercial": {
           "avg": 1.41,
           "min": 0.3,
           "max": 1.6,
-          "n_values": 24
+          "n_values": 24,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/slovakia-apr25.pdf",
         "used_table_extraction": true,
@@ -1567,19 +1727,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.4,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 35
+          "n_values": 35,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/slovenia-apr25.pdf",
         "used_table_extraction": true,
@@ -1621,19 +1787,25 @@
           "avg": 0.2,
           "min": 0.1,
           "max": 0.2,
-          "n_values": 2
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Transaction value up to and including € 20.00\nTransactions value over € 20.00",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Transaction value up to and including € 20.00\nTransactions value over € 20.00"
         },
         "consumer_credit": {
           "avg": 0.72,
           "min": 0.2,
           "max": 0.72,
-          "n_values": 14
+          "n_values": 14,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Transaction value up to and including € 20.00\nTransactions value over € 20.00",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Transaction value up to and including € 20.00\nTransactions value over € 20.00 Low Value5"
         },
         "commercial": {
           "avg": 0.6617,
           "min": 0.1,
           "max": 0.86,
-          "n_values": 78
+          "n_values": 78,
+          "min_label": "Infinite Business Debit\nVisa Infinite Business Prepaid Standard4",
+          "max_label": "Infinite Business Credit\nVisa Infinite Business Deferred Debit Standard4"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/may-2026/es-interchange-fee-may26.pdf",
         "used_table_extraction": true,
@@ -1690,19 +1862,25 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
           "min": 0.3,
           "max": 0.3,
-          "n_values": 1
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
           "avg": 1.505,
           "min": 0.3,
           "max": 2.0,
-          "n_values": 97
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/sweden-apr25.pdf",
         "used_table_extraction": true,
