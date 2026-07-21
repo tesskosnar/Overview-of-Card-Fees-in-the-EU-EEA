@@ -385,6 +385,17 @@ TIER_QUALIFIER_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Commercial cards aren't one product -- a single rate sheet publishes
+# Business Debit/Credit alongside Platinum, Infinite, and Corporate tiers,
+# each priced differently (often quite a bit higher). Averaging every tier
+# together produces a number that matches no actual card a merchant holds.
+# The base "Business" tier is the closest thing to a representative
+# headline rate; premium tiers still count toward min/max (they're real,
+# published rates) but are excluded from the average.
+PREMIUM_COMMERCIAL_TIER_RE = re.compile(
+    r"\b(platinum|infinite|corporate|purchasing)\b", re.IGNORECASE,
+)
+
 # Some rate sheets state a percentage AND an absolute cap in the same cell
 # (e.g. "0.20% (capped at RON 20.00)", "0.20% (capped at £0.50)"). The
 # percentage alone understates the true cost only for very large
@@ -487,6 +498,8 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         # a row is consistently the general/standard rate, with narrower
         # merchant-category or payment-type rates following it.
         headline_values = [row.values[0]] if headline and row.values else []
+        if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
+            headline_values = []  # premium tier: counts toward range, not the headline blend
         category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS))
         labeled = [(category_label, v) for v in row.values]
         if bucket == "consumer_credit":
