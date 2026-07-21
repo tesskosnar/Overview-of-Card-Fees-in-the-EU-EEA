@@ -68,8 +68,12 @@ def main():
         if data.get("notes"):
             warnings.append(data["notes"])
 
+        consumer_debit_block = block(data["consumer_debit"], data["consumer_debit"], data["consumer_debit"])
+        if consumer_debit_block is None and data.get("consumer_debit_flat_fee"):
+            consumer_debit_block = {"flat_fee": data["consumer_debit_flat_fee"]}
+
         mc_block = {
-            "consumer_debit": block(data["consumer_debit"], data["consumer_debit"], data["consumer_debit"]),
+            "consumer_debit": consumer_debit_block,
             "consumer_credit": block(data["consumer_credit"], data["consumer_credit"], data["consumer_credit"]),
             "commercial": commercial_block(data),
             "source_url": data["source_url"],
