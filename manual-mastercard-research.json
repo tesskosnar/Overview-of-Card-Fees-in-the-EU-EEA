@@ -246,6 +246,15 @@
       "commercial_max": 1.8,
       "notes": "EEA/EFTA member, not EU.",
       "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/28LiechtensteinIntracountryInterchangeFees.pdf"
+    },
+    "CH": {
+      "consumer_debit": 0.12,
+      "consumer_credit": 0.38,
+      "commercial_min": 0.12,
+      "commercial_max": 0.55,
+      "commercial_contactless": 0.38,
+      "notes": "Switzerland is NOT EU/EEA and NOT bound by the IFR cap -- rates are set separately (Swiss Competition Commission COMCO settlement + Mastercard rate sheet). Debit uses a value-tiered structure (0.12% + CHF 0.30 for <=CHF 250-300, ~0.28% above) -- 0.12% shown here as the representative rate for typical transactions, confirmed independently by a COMCO press release. Consumer credit ranges 0.35%-0.55% across fee tiers -- Contactless (0.38%) used as headline for consistency with other countries.",
+      "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Switzerland_Intracountry_Interchange_Fees_1_November_2025.pdf"
     }
   }
 }
