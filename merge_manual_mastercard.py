@@ -29,6 +29,8 @@ COUNTRY_NAMES = {
     "CY": "Cyprus", "DK": "Denmark", "IE": "Ireland", "LU": "Luxembourg",
     "PT": "Portugal", "RO": "Romania", "SK": "Slovakia", "SI": "Slovenia",
     "GR": "Greece", "MT": "Malta", "SE": "Sweden", "NO": "Norway", "BG": "Bulgaria",
+    "FI": "Finland", "LT": "Lithuania", "EE": "Estonia", "IS": "Iceland",
+    "LI": "Liechtenstein", "CH": "Switzerland",
 }
 
 
