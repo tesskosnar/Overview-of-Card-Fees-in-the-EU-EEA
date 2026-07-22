@@ -1,6 +1,6 @@
 # Card Fee Tracker
 
-Soukromý GitHub projekt pro měsíční sledování **interchange poplatků** Visa a Mastercard napříč 30 zeměmi EU/EEA (27 zemí EU + Island, Lichtenštejnsko, Norsko).
+Soukromý GitHub projekt pro měsíční sledování **interchange poplatků** Visa a Mastercard napříč 30 zeměmi EU/EEA (27 zemí EU + Island, Lichtenštejnsko, Norsko) a navíc Švýcarskem (mimo EHP, vlastní sazební režim — přidáno jako bonus 31. země).
 
 ## Co dashboard ukazuje
 
