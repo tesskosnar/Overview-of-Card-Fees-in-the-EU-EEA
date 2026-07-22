@@ -220,7 +220,7 @@ def test_build_output_lists_all_30_countries_even_with_partial_data():
 
     output = pipeline.build_output([r1, r2])
 
-    assert len(output["countries"]) == 30
+    assert len(output["countries"]) == 31
     assert output["summary"]["visa"]["consumer_debit"]["avg"] == 0.2
     assert output["summary"]["visa"]["commercial"]["n_countries"] == 2
 
@@ -387,3 +387,34 @@ def test_unlabeled_commercial_rows_do_not_contaminate_capped_consumer_buckets(tm
     )
     assert block["avg"] == 0.30, f"expected the real EU-capped rate, got {block['avg']}"
     assert any("dropped" in w and "consumer credit" in w for w in result.warnings)
+
+
+# Switzerland is not EU, not EEA, and not bound by the IFR's 0.20%/0.30%
+# cap -- it has its own separate, higher rates. The legal-cap sanity filter
+# (built to catch commercial-table contamination in EU/EEA countries like
+# Spain) must NOT strip out Switzerland's genuinely higher consumer rates
+# just because they exceed the EU ceiling.
+def test_switzerland_is_exempt_from_the_eu_legal_cap_filter(tmp_path):
+    rows = [
+        ["Product", "Fee Tier", "General"],
+        ["Visa Consumer Credit", "Standard", "0.55%"],
+    ]
+    pdf_path = tmp_path / "synthetic_switzerland_table.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=9)
+    for row in rows:
+        for text, w in zip(row, [55, 60, 60]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "CH")
+    assert result.consumer_credit == [0.55], "Switzerland's real (uncapped) rate must not be dropped as if it were EU contamination"
+    assert not any("dropped" in w for w in result.warnings)
+
+
+def test_ifr_capped_lookup_excludes_switzerland():
+    assert "CH" not in pipeline.IFR_CAPPED_ISO2
+    assert "DE" in pipeline.IFR_CAPPED_ISO2
+    assert "NO" in pipeline.IFR_CAPPED_ISO2, "Norway is EEA and IS bound by the cap despite not being EU"
