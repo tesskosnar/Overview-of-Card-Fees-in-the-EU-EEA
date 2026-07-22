@@ -47,6 +47,7 @@ class Country:
     iso2: str
     eu_member: bool
     region: str
+    ifr_capped: bool = True  # False only for Switzerland: not EU, not EEA, not bound by the 0.20%/0.30% cap
 
 
 EU_EEA_COUNTRIES = [
@@ -80,10 +81,12 @@ EU_EEA_COUNTRIES = [
     Country("Iceland", "IS", False, "Nordic"),
     Country("Liechtenstein", "LI", False, "Western"),
     Country("Norway", "NO", False, "Nordic"),
+    Country("Switzerland", "CH", False, "Western", ifr_capped=False),
 ]
 
 REGIONS = ["CEE", "Western", "Nordic", "Southern"]
 COUNTRY_BY_ISO2 = {c.iso2: c for c in EU_EEA_COUNTRIES}
+IFR_CAPPED_ISO2 = {c.iso2 for c in EU_EEA_COUNTRIES if c.ifr_capped}
 
 NAME_ALIASES = {
     "Czech Republic": ["Czechia"],
@@ -516,7 +519,7 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         # Credit" prefix carried forward from many rows above. Strip these
         # out entirely rather than let them corrupt the range or, worse,
         # get selected by the capped-category max-value fallback.
-        if bucket in IFR_CAP:
+        if bucket in IFR_CAP and iso2 in IFR_CAPPED_ISO2:
             ceiling = IFR_CAP[bucket] + 0.02
             in_range = [v for v in row.values if v <= ceiling]
             out_of_range = [v for v in row.values if v > ceiling]
@@ -602,10 +605,10 @@ def _stat_block(all_values: list[float], headline_values: list[float] | None = N
 CAPPED_CATEGORIES = {"consumer_debit", "consumer_credit"}
 
 
-def _headline_for(category: str, all_values: list[float], headline_values: list[float]) -> list[float]:
+def _headline_for(category: str, all_values: list[float], headline_values: list[float], iso2: str | None = None) -> list[float]:
     if headline_values:
         return headline_values
-    if category in CAPPED_CATEGORIES and all_values:
+    if category in CAPPED_CATEGORIES and all_values and (iso2 is None or iso2 in IFR_CAPPED_ISO2):
         return [max(all_values)]
     return []
 
@@ -622,7 +625,7 @@ def build_summary(results: list) -> dict[str, Any]:
             per_country_avgs = []
             for r in network_results:
                 all_vals = getattr(r, category)
-                headline = _headline_for(category, all_vals, getattr(r, f"{category}_headline", []))
+                headline = _headline_for(category, all_vals, getattr(r, f"{category}_headline", []), r.iso2)
                 block = _stat_block(all_vals, headline)
                 if block:
                     per_country_avgs.append(block["avg"])
@@ -647,8 +650,8 @@ def build_country_table(results: list) -> list[dict[str, Any]]:
     for r in results:
         entry = by_iso2[r.iso2]
         entry[r.network] = {
-            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline), r.consumer_debit_labeled, r.consumer_debit_flat_fee),
-            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline), r.consumer_credit_labeled, r.consumer_credit_flat_fee),
+            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline, r.iso2), r.consumer_debit_labeled, r.consumer_debit_flat_fee),
+            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline, r.iso2), r.consumer_credit_labeled, r.consumer_credit_flat_fee),
             "commercial": _stat_block(r.commercial, r.commercial_headline, r.commercial_labeled, r.commercial_flat_fee),
             "source_url": r.source_url,
             "used_table_extraction": r.used_table_extraction,
