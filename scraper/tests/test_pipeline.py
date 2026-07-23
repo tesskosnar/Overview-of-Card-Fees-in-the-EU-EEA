@@ -418,3 +418,24 @@ def test_ifr_capped_lookup_excludes_switzerland():
     assert "CH" not in pipeline.IFR_CAPPED_ISO2
     assert "DE" in pipeline.IFR_CAPPED_ISO2
     assert "NO" in pipeline.IFR_CAPPED_ISO2, "Norway is EEA and IS bound by the cap despite not being EU"
+
+
+def test_min_max_labels_include_additional_fixed_fee(tmp_path):
+    rows = [
+        ["Product", "Fee Tier", "General"],
+        ["Visa Business Credit", "Small Market Expense", "0.30%"],
+        ["Visa Infinite Business Credit", "Standard, Tier-1", "0.86% + EUR 0.03"],
+    ]
+    pdf_path = tmp_path / "synthetic_spain_fixed_fee.pdf"
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", size=8)
+    for row in rows:
+        for text, w in zip(row, [70, 70, 50]):
+            pdf.cell(w, 8, text, border=1)
+        pdf.ln(8)
+    pdf.output(str(pdf_path))
+
+    result = pipeline.parse_visa(pdf_path.read_bytes(), "ES")
+    block = pipeline._stat_block(result.commercial, result.commercial_headline, result.commercial_labeled)
+    assert "+ EUR 0.03" in block["max_label"], "the fixed-fee addition must show up in the label, not just the bare product name"
