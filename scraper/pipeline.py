@@ -411,6 +411,12 @@ CAP_RE = re.compile(
     re.IGNORECASE,
 )
 
+# Some rate sheets add a small fixed fee ON TOP of the percentage for every
+# transaction (e.g. "0.86% + EUR 0.03", distinct from a CAP which is a
+# ceiling). Worth showing in the label so "0.86%" doesn't read as the whole
+# story when there's also a few cents added per transaction.
+ADDITIONAL_FEE_RE = re.compile(r"\+\s*([A-Z]{0,3}\s?[\d.,]+)(?!\s*%)")
+
 
 def _is_headline_row(label: str) -> bool:
     return not TIER_QUALIFIER_RE.search(label)
@@ -421,6 +427,11 @@ def _cap_note(label: str) -> str | None:
     if not m:
         return None
     return f"rate sheet also states a cap: \"{m.group(0)}\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+
+
+def _additional_fee_suffix(raw_text: str) -> str:
+    m = ADDITIONAL_FEE_RE.search(raw_text)
+    return f" + {m.group(1).strip()}" if m else ""
 
 
 @dataclass
@@ -508,7 +519,7 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         headline_values = [row.values[0]] if headline and row.values else []
         if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
             headline_values = []  # premium tier: counts toward range, not the headline blend
-        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS))
+        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS)) + _additional_fee_suffix(row.raw_text or row.label)
 
         # consumer_debit/consumer_credit are legally capped EU-wide (0.20%/
         # 0.30%, +/- a small buffer for documented rounding). A value above
