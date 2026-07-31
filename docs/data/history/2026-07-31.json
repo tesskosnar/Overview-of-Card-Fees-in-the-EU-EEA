@@ -1,0 +1,1983 @@
+{
+  "generated_at": "2026-07-31T08:36:22+00:00",
+  "scope": {
+    "fee_type": "interchange",
+    "networks": [
+      "visa",
+      "mastercard"
+    ],
+    "region": "EU/EEA",
+    "country_count": 31
+  },
+  "note": "",
+  "ifr_cap": {
+    "consumer_debit": 0.2,
+    "consumer_credit": 0.3
+  },
+  "regions": [
+    "CEE",
+    "Western",
+    "Nordic",
+    "Southern"
+  ],
+  "summary": {
+    "visa": {
+      "consumer_debit": {
+        "avg": 0.1876,
+        "min": 0.1,
+        "max": 0.2,
+        "n_countries": 30
+      },
+      "consumer_credit": {
+        "avg": 0.3016,
+        "min": 0.3,
+        "max": 0.35,
+        "n_countries": 31
+      },
+      "commercial": {
+        "avg": 1.3492,
+        "min": 0.275,
+        "max": 2.0667,
+        "n_countries": 30
+      }
+    },
+    "mastercard": {
+      "consumer_debit": {
+        "avg": 0.1863,
+        "min": 0.1,
+        "max": 0.2,
+        "n_countries": 30
+      },
+      "consumer_credit": {
+        "avg": 0.3026,
+        "min": 0.3,
+        "max": 0.38,
+        "n_countries": 31
+      },
+      "commercial": {
+        "avg": 1.4098,
+        "min": 0.25,
+        "max": 1.975,
+        "n_countries": 31
+      }
+    }
+  },
+  "countries": [
+    {
+      "iso2": "AT",
+      "name": "Austria",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/austria-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Austria_Intracountry_Interchange_Fees_1_Jan_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "BE",
+      "name": "Belgium",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.1,
+          "min": 0.1,
+          "max": 0.1,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.1375,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/belgium-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.1,
+          "min": 0.1,
+          "max": 0.1,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.15,
+          "min": 0.4,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Belgium_Intracountry_Interchange_Fees_01_Jan_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Consumer debit reduced to 0.10% (Max EUR 0.05) -- national special provision.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "BG",
+      "name": "Bulgaria",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nElectronic Commerce\nStandard"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nElectronic Commerce\nStandard"
+        },
+        "commercial": {
+          "avg": 1.475,
+          "min": 0.2,
+          "max": 1.85,
+          "n_values": 77,
+          "min_label": "Business Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard BGN 0.40",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard BGN 0.40"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/bulgaria-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at BGN\n0.07\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
+          "rate sheet also states a cap: \"capped at BGN\n0.12\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.55,
+          "min": 1.3,
+          "max": 1.8,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Bulgaria_Intracountry_Interchange_Fees_01_May_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "HR",
+      "name": "Croatia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Secure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Secure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Secure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Secure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 2.0667,
+          "min": 0.3,
+          "max": 2.4,
+          "n_values": 40,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/croatia-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.975,
+          "min": 1.75,
+          "max": 2.2,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Croatia_Intracountry_Interchange_Fees_01012023.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "CY",
+      "name": "Cyprus",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.75,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 42,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Platinum Business Debit\nVisa Platinum Business Prepaid\nVisa Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/cyprus-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.4,
+          "min": 0.9,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Cyprus-Intracountry-Interchange-Fees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "CZ",
+      "name": "Czech Republic",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.6833,
+          "min": 0.3,
+          "max": 1.95,
+          "n_values": 36,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/czech-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at CZK 3.00\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.8,
+          "min": 1.5,
+          "max": 2.1,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Czech_Republic_Intracountry_Interchange_Fees_1_Jan_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "DK",
+      "name": "Denmark",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 91,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/denmark-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at DKK 2.50\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.35,
+          "min": 0.8,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Denmark_Intracountry_Interchange_Fees_1_Oct_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "EE",
+      "name": "Estonia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/estonia-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.425,
+          "min": 1.05,
+          "max": 1.8,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/13Estonia.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "FI",
+      "name": "Finland",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 79,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/january-26/fi-fees-and-interchange-jan25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.325,
+          "min": 0.75,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Finland_Intracountry_Interchange_Fees_1_Oct_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "FR",
+      "name": "France",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Low Value (≤€15.00)\nHigh Value (>€15.00)",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Low Value (≤€15.00)\nHigh Value (>€15.00)"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value (≤€15.00)\nHigh Value (>€15.00)",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value (≤€15.00)\nHigh Value (>€15.00)"
+        },
+        "commercial": {
+          "avg": 1.2625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 88,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/may-2026/fr-interchange-fee-may26.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.25,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2,
+          "min_label": "Contactless (Business)"
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/15FranceIntracountryInterchangeFees220121.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless (base Business tier) = 1.25%, below the 1.65% Base tier."
+        ]
+      }
+    },
+    {
+      "iso2": "DE",
+      "name": "Germany",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.85,
+          "min": 0.2,
+          "max": 2.4,
+          "n_values": 71,
+          "min_label": "Purchasing EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard Level 2 - Fuel Only EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/january-26/uk-germany-jan-26.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.88,
+          "min": 0.68,
+          "max": 2.4,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Germany_Intracountry_Interchange_Fees_New_1_Jan_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless (base Business tier) = 1.88%, notably below the 2.05% Base tier."
+        ]
+      }
+    },
+    {
+      "iso2": "GR",
+      "name": "Greece",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.15,
+          "max": 0.3,
+          "n_values": 4,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.45,
+          "min": 0.15,
+          "max": 2.05,
+          "n_values": 60,
+          "min_label": "Business Credit - Small Market Expense Standard",
+          "max_label": "Platinum Business Debit and Prepaid\nVisa Infinite Business Debit and Prepaid\nVisa Platinum Business Credit and Deferred Debit\nVisa Infinite Business Credit and Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/greece-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.15,
+          "min": 0.5,
+          "max": 1.8,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Greece_Intracountry_Interchange_Fees_1_Jan_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "HU",
+      "name": "Hungary",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nStandard"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard"
+        },
+        "commercial": {
+          "avg": 1.4167,
+          "min": 0.3,
+          "max": 1.95,
+          "n_values": 66,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/hungary-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at HUF 20.00\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.625,
+          "min": 1.35,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Hungary_Intracountry_Interchange_Fees_01_Nov_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "IS",
+      "name": "Iceland",
+      "eu_member": false,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/iceland-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "user-provided PDF, 16 July 2026 (Iceland - Domestic Interchange Fees)",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "EEA/EFTA member, not EU.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "IE",
+      "name": "Ireland",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.1,
+          "min": 0.1,
+          "max": 0.1,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV® Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "commercial": {
+          "avg": 1.0333,
+          "min": 0.2,
+          "max": 1.9,
+          "n_values": 64,
+          "min_label": "Business Debit\nVisa Business Prepaid Card Present - Contactless1\nCard Present - EMV® Chip\nCard Not Present\nStandard",
+          "max_label": "Platinum Business Credit\nVisa Platinum Business Deferred Debit\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit Card Present - Contactless\nCard Present - EMV® Chip\nCard Not Present\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/ireland-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.1,
+          "min": 0.1,
+          "max": 0.1,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.3,
+          "min": 0.7,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/21IrelandIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Consumer debit reduced to 0.10% -- national special provision.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "IT",
+      "name": "Italy",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.09,
+          "max": 0.2,
+          "n_values": 17,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Low Value < €5.00\nContactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Low Value < €5.00\nContactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.135,
+          "max": 0.3,
+          "n_values": 11,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value < €5.00\nContactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Low Value < €5.00\nContactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.4167,
+          "min": 0.27,
+          "max": 2.0,
+          "n_values": 68,
+          "min_label": "Business Credit - Small Market Expense Low Value < €5.00\nStandard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/italy-aug25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.25,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2,
+          "min_label": "Contactless (Business)"
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Italy_Intracountry_Interchange_Fees_1_Mar_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Slightly lower (0.18%/0.28%) for transactions under EUR 5 Contactless (base Business tier) = 1.25%, below the 1.65% Base tier."
+        ]
+      }
+    },
+    {
+      "iso2": "LV",
+      "name": "Latvia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/latvia-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.505,
+          "min": 1.18,
+          "max": 1.83,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/27LatviaIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "LI",
+      "name": "Liechtenstein",
+      "eu_member": false,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/liechtenstein-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.6,
+          "min": 1.4,
+          "max": 1.8,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/28LiechtensteinIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "EEA/EFTA member, not EU.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "LT",
+      "name": "Lithuania",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/lithuania-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.75,
+          "min": 1.45,
+          "max": 2.05,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/29LithuaniaIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "LU",
+      "name": "Luxembourg",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.12,
+          "min": 0.12,
+          "max": 0.12,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/luxembourg-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.12,
+          "min": 0.12,
+          "max": 0.12,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/30LuxembourgIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Consumer debit reduced to 0.12% -- national special provision.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "MT",
+      "name": "Malta",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.15,
+          "min": 0.15,
+          "max": 0.15,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.4167,
+          "min": 0.3,
+          "max": 1.85,
+          "n_values": 37,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Platinum Business Debit\nVisa Platinum Business Prepaid\nVisa Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard € 0.25"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/malta-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.15,
+          "min": 0.15,
+          "max": 0.15,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.1,
+          "min": 0.3,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Malta_Intracountry_Interchange_Fees_1_Jan_2026.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Consumer debit reduced to 0.15% -- national special provision.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "NL",
+      "name": "Netherlands",
+      "eu_member": true,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "flat_fee": "€ 0.02"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 100,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/netherlands-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet states a flat fee (€ 0.02) for consumer debit, not a percentage -- shown as a fixed amount instead of %, not counted in the range"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "flat_fee": "EUR 0.02"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Netherlands_Intracountry_Interchange_Fees_1_Aug_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Consumer DEBIT is a FIXED FEE of EUR 0.02/transaction, not a percentage -- national special provision under IFR Art. 3-4.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "NO",
+      "name": "Norway",
+      "eu_member": false,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure2\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 107,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/norway-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.65,
+          "min": 1.4,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Norway-Intracountry-Interchange-Fees_280922.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "EEA/EFTA member, not EU.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "PL",
+      "name": "Poland",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.01,
+          "max": 0.2,
+          "n_values": 4,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.01,
+          "max": 0.3,
+          "n_values": 5,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard + PLN 20.00",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard + PLN 20.00"
+        },
+        "commercial": {
+          "avg": 0.275,
+          "min": 0.01,
+          "max": 0.3,
+          "n_values": 37,
+          "min_label": "Business Debit\nVisa Business Prepaid Electronic\nStandard",
+          "max_label": "Business Credit\nVisa Business Deferred Debit Electronic\nStandard + PLN 30.00"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/poland-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at PLN 0.20\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
+          "rate sheet also states a cap: \"capped at PLN 0.30\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 0.25,
+          "min": 0.2,
+          "max": 0.3,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Poland_Intracountry_Interchange_Fees_july_2024.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Commercial cards priced same as consumer -- notably lower than other countries sampled",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "PT",
+      "name": "Portugal",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 3,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless Low Value\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless Low Value\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 3,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless Low Value\nSecure1\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless Low Value\nSecure1\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.2083,
+          "min": 0.2,
+          "max": 2.0,
+          "n_values": 148,
+          "min_label": "Business Debit\nVisa Business Prepaid EMV Chip (incl. Contactless)\nElectronic Commerce\nStandard",
+          "max_label": "Corporate7\nVisa Purchasing EMV Chip (incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/portugal-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.425,
+          "min": 0.9,
+          "max": 1.95,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website-Portugal-Intracountry-Interchange-Fees-1-September-2023.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "RO",
+      "name": "Romania",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.7,
+          "min": 0.1,
+          "max": 2.1,
+          "n_values": 107,
+          "min_label": "Business Credit\nVisa Business Deferred Debit EMV Chip (Incl. Contactless) 0.65 RON + RON 50",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard 0.65 RON"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/romania-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet also states a cap: \"capped at RON 20.00\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
+          "dropped 1 value(s) over 0.32% from consumer credit (e.g. 1.0%) -- looks like a mis-attributed commercial/merchant-category row, not a real consumer rate; verify against the source PDF if unsure"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.8,
+          "min": 1.7,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website-Romania-Intracountry-Interchange-Fees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "SK",
+      "name": "Slovakia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Standard",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Standard"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Standard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Standard"
+        },
+        "commercial": {
+          "avg": 1.25,
+          "min": 0.3,
+          "max": 1.6,
+          "n_values": 24,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/slovakia-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.5,
+          "min": 1.2,
+          "max": 1.8,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/44SlovakiaIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "SI",
+      "name": "Slovenia",
+      "eu_member": true,
+      "region": "CEE",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.25,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 35,
+          "min_label": "Business Credit -\nSmall Market Expense Standard",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/slovenia-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/45SloveniaIntracountryInterchangeFees.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "ES",
+      "name": "Spain",
+      "eu_member": true,
+      "region": "Southern",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.1,
+          "max": 0.2,
+          "n_values": 2,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Transaction value up to and including € 20.00\nTransactions value over € 20.00",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Transaction value up to and including € 20.00\nTransactions value over € 20.00"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.2,
+          "max": 0.3,
+          "n_values": 2,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Transaction value up to and including € 20.00\nTransactions value over € 20.00",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Transaction value up to and including € 20.00\nTransactions value over € 20.00"
+        },
+        "commercial": {
+          "avg": 0.483,
+          "min": 0.1,
+          "max": 0.86,
+          "n_values": 90,
+          "flat_fee": "€ 0.00",
+          "min_label": "Infinite Business Debit\nVisa Infinite Business Prepaid Standard4",
+          "max_label": "Infinite Business Credit\nVisa Infinite Business Deferred Debit Standard4"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/may-2026/es-interchange-fee-may26.pdf",
+        "used_table_extraction": true,
+        "warnings": [
+          "rate sheet states a flat fee (€ 0.32) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.24) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.23) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.03) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.00) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.35) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.27) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.26) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range",
+          "rate sheet states a flat fee (€ 0.06) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range"
+        ]
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 0.865,
+          "min": 0.23,
+          "max": 1.5,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Spain_Intracountry_Interchange_Fees_1_Aug_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Reduced rate (debit 0.10%, credit 0.20%) for transactions <=EUR 20. Commercial tiered by merchant card volume (3 tiers) x merchant category, ranging 0.23%-1.05%; Central Travel Solution and Commercial Debit Premium products are flat 1.50% across all tiers (this is the true max, corrected 2026-07-18 after a user-reported discrepancy). No Contactless-specific tier exists for commercial -- Spain prices by merchant category x volume tier instead, so commercial_min/max remain the primary reference.",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "SE",
+      "name": "Sweden",
+      "eu_member": true,
+      "region": "Nordic",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1,
+          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+        },
+        "commercial": {
+          "avg": 1.3625,
+          "min": 0.3,
+          "max": 2.0,
+          "n_values": 97,
+          "min_label": "Business Credit - Small Market\nExpense Standard",
+          "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
+        },
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/sweden-apr25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.2,
+          "min": 0.2,
+          "max": 0.2,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.3,
+          "min": 0.3,
+          "max": 0.3,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 1.575,
+          "min": 1.25,
+          "max": 1.9,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Sweden-Intracountry-Interchange-Fees_280922.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Contactless-specific rate not yet re-verified for this country -- headline uses the midpoint of the published range instead"
+        ]
+      }
+    },
+    {
+      "iso2": "CH",
+      "name": "Switzerland",
+      "eu_member": false,
+      "region": "Western",
+      "visa": {
+        "consumer_debit": {
+          "avg": 0.1575,
+          "min": 0.03,
+          "max": 0.28,
+          "n_values": 4,
+          "min_label": "Consumer Debit\nV PAY Debit\nV PAY Prepaid Card Present\nCard Not Present -\n",
+          "max_label": "Consumer Debit\nV PAY Debit\nV PAY Prepaid Card Present\nCard Not Present -\n"
+        },
+        "consumer_credit": {
+          "avg": 0.35,
+          "min": 0.35,
+          "max": 0.55,
+          "n_values": 8,
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit\nVisa Consumer Prepaid Secure Electronic Commerce\nContactless\nEMV Chip\nElectronic Data Capture (EMV Chip Terminal)\nElectronic Authorised\nElectronic Data Capture (Standard)\nStandard -\n-\n-\n-\n-\n-\n",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit\nVisa Consumer Prepaid Secure Electronic Commerce\nContactless\nEMV Chip\nElectronic Data Capture (EMV Chip Terminal)\nElectronic Authorised\nElectronic Data Capture (Standard)\nStandard -\n-\n-\n-\n-\n-\n"
+        },
+        "commercial": null,
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/november-25/switzerland-nov-25.pdf",
+        "used_table_extraction": true,
+        "warnings": []
+      },
+      "mastercard": {
+        "consumer_debit": {
+          "avg": 0.12,
+          "min": 0.12,
+          "max": 0.12,
+          "n_values": 1
+        },
+        "consumer_credit": {
+          "avg": 0.38,
+          "min": 0.38,
+          "max": 0.38,
+          "n_values": 1
+        },
+        "commercial": {
+          "avg": 0.38,
+          "min": 0.12,
+          "max": 0.55,
+          "n_values": 2
+        },
+        "source_url": "https://www.mastercard.com/content/dam/mccom/eu/business/Support/merchant-interchange-rates/pdfs/Website_Switzerland_Intracountry_Interchange_Fees_1_November_2025.pdf",
+        "used_table_extraction": false,
+        "warnings": [
+          "Manually researched, not live-scraped -- see manual-mastercard-research.json",
+          "Switzerland is NOT EU/EEA and NOT bound by the IFR cap -- rates are set separately (Swiss Competition Commission COMCO settlement + Mastercard rate sheet). Debit uses a value-tiered structure (0.12% + CHF 0.30 for <=CHF 250-300, ~0.28% above) -- 0.12% shown here as the representative rate for typical transactions, confirmed independently by a COMCO press release. Consumer credit ranges 0.35%-0.55% across fee tiers -- Contactless (0.38%) used as headline for consistency with other countries."
+        ]
+      }
+    }
+  ]
+}
