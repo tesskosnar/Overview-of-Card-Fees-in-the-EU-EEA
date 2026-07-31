@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T08:36:22+00:00",
+  "generated_at": "2026-07-31T09:03:44+00:00",
   "scope": {
     "fee_type": "interchange",
     "networks": [
@@ -35,10 +35,10 @@
         "n_countries": 31
       },
       "commercial": {
-        "avg": 1.3492,
+        "avg": 1.3145,
         "min": 0.275,
         "max": 2.0667,
-        "n_countries": 30
+        "n_countries": 31
       }
     },
     "mastercard": {
@@ -1506,6 +1506,7 @@
           "min": 0.01,
           "max": 0.3,
           "n_values": 37,
+          "flat_fee": "PLN 0.27",
           "min_label": "Business Debit\nVisa Business Prepaid Electronic\nStandard",
           "max_label": "Business Credit\nVisa Business Deferred Debit Electronic\nStandard + PLN 30.00"
         },
@@ -1513,7 +1514,8 @@
         "used_table_extraction": true,
         "warnings": [
           "rate sheet also states a cap: \"capped at PLN 0.20\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
-          "rate sheet also states a cap: \"capped at PLN 0.30\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+          "rate sheet also states a cap: \"capped at PLN 0.30\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
+          "rate sheet states a flat fee (PLN 0.27) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range"
         ]
       },
       "mastercard": {
@@ -1947,7 +1949,14 @@
           "min_label": "Consumer Credit\nVisa Consumer Deferred Debit\nVisa Consumer Prepaid Secure Electronic Commerce\nContactless\nEMV Chip\nElectronic Data Capture (EMV Chip Terminal)\nElectronic Authorised\nElectronic Data Capture (Standard)\nStandard -\n-\n-\n-\n-\n-\n",
           "max_label": "Consumer Credit\nVisa Consumer Deferred Debit\nVisa Consumer Prepaid Secure Electronic Commerce\nContactless\nEMV Chip\nElectronic Data Capture (EMV Chip Terminal)\nElectronic Authorised\nElectronic Data Capture (Standard)\nStandard -\n-\n-\n-\n-\n-\n"
         },
-        "commercial": null,
+        "commercial": {
+          "avg": 0.275,
+          "min": 0.03,
+          "max": 0.95,
+          "n_values": 13,
+          "min_label": "Commercial Debit Card Present\nCard Not Present -\n",
+          "max_label": "Commercial Credit\nVisa Commercial Deferred Debit\nVisa Commercial Prepaid Secure Electronic Commerce\nContactless\nEMV Chip\nElectronic Data Capture (EMV Chip Terminal)\nElectronic Authorised\nElectronic Data Capture (Standard)\nStandard\nCentral Travel Account (CTA)³ -\n-\n-\n-\n-\n-\n-\n"
+        },
         "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/november-25/switzerland-nov-25.pdf",
         "used_table_extraction": true,
         "warnings": []
