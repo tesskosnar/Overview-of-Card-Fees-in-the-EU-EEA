@@ -1,198 +1,685 @@
-"""Consolidated test suite for pipeline.py."""
-import pathlib
-import sys
+"""
+pipeline.py
+===========
+Consolidated Visa interchange-fee scraper for the Colab/GitHub-Actions
+workflow. Combines sources.py, fetch.py, discover.py, parse_common.py,
+parse_visa.py, aggregate.py into one file.
 
-import pytest
-from fpdf import FPDF
+Mastercard is NOT live-scraped here -- mastercard.com blocks automated
+fetches at the listing-page level (confirmed repeatedly). Mastercard data
+comes from manual_mastercard_research.json, hand-researched country by
+country -- see main.py.
+"""
 
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
-import pipeline  # noqa: E402
+from __future__ import annotations
 
+import io
+import logging
+import re
+import statistics
+import time
+import urllib.robotparser
+from dataclasses import dataclass, field, replace
+from datetime import datetime, timezone
+from typing import Any
+from urllib.parse import urljoin, urlparse
 
-def _pdf(rows, widths, path):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Helvetica", size=8)
-    for row in rows:
-        for text, w in zip(row, widths):
-            pdf.cell(w, 8, text, border=1)
-        pdf.ln(8)
-    pdf.output(str(path))
-    return path.read_bytes()
+import pdfplumber
+import requests
+from bs4 import BeautifulSoup
 
+log = logging.getLogger("pipeline")
 
-def test_table_extraction_path(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General", "Petrol", "Airlines"],
-        ["Visa Consumer Debit", "Contactless", "0.20%", "0.20%", "0.20%"],
-        ["Visa Consumer Credit", "Contactless", "0.30%", "0.30%", "0.30%"],
-        ["Visa Business Debit", "EMV Chip", "1.85%", "0.68%", "1.35%"],
-    ]
-    b = _pdf(rows, [55, 30, 25, 25, 25], tmp_path / "a.pdf")
-    result = pipeline.parse_visa(b, "XX")
-    assert result.used_table_extraction
-    assert set(result.consumer_debit) == {0.20}
-    assert set(result.consumer_credit) == {0.30}
-
-
-def test_tiered_only_rows_use_capped_max_not_blended_average(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Consumer Debit", "Transaction value up to and including EUR 20.00", "0.10%"],
-        ["Visa Consumer Prepaid", "Transactions value over EUR 20.00", "0.20%"],
-        ["Visa Consumer Credit", "Transaction value up to and including EUR 20.00", "0.20%"],
-        ["Visa Consumer Deferred Debit", "Transactions value over EUR 20.00", "0.30%"],
-    ]
-    b = _pdf(rows, [55, 90, 25], tmp_path / "es.pdf")
-    result = pipeline.parse_visa(b, "ES")
-    db = pipeline._stat_block(result.consumer_debit, pipeline._headline_for("consumer_debit", result.consumer_debit, result.consumer_debit_headline, "ES"))
-    cb = pipeline._stat_block(result.consumer_credit, pipeline._headline_for("consumer_credit", result.consumer_credit, result.consumer_credit_headline, "ES"))
-    assert db["avg"] == 0.20
-    assert cb["avg"] == 0.30
-    assert db["min"] == 0.10 and db["max"] == 0.20
+# ---------------------------------------------------------------
+# sources.py
+# ---------------------------------------------------------------
 
 
-def test_unlabeled_commercial_rows_do_not_contaminate_capped_consumer_buckets(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Consumer Debit", "Transaction value up to and including EUR 20.00", "0.10%"],
-        ["Visa Consumer Prepaid", "Transactions value over EUR 20.00", "0.20%"],
-        ["Visa Consumer Credit", "Transaction value up to and including EUR 20.00", "0.20%"],
-        ["Visa Consumer Deferred Debit", "Transactions value over EUR 20.00", "0.30%"],
-        ["Non-Sector Specific", "Standard", "0.76%"],
-        ["Sector Specific", "Retailer - Food", "0.65%"],
-        ["", "Retailer - Other", "0.76%"],
-        ["", "Petrol Station", "0.65%"],
-        ["", "Night Club", "0.76%"],
-    ]
-    b = _pdf(rows, [60, 90, 25], tmp_path / "es2.pdf")
-    result = pipeline.parse_visa(b, "ES")
-    assert 0.76 not in result.consumer_credit and 0.65 not in result.consumer_credit
-    cb = pipeline._stat_block(result.consumer_credit, pipeline._headline_for("consumer_credit", result.consumer_credit, result.consumer_credit_headline, "ES"))
-    assert cb["avg"] == 0.30
-    assert any("dropped" in w for w in result.warnings)
+@dataclass(frozen=True)
+class Country:
+    name: str
+    iso2: str
+    eu_member: bool
+    region: str
+    ifr_capped: bool = True  # False only for Switzerland: not EU, not EEA, not bound by the 0.20%/0.30% cap
 
 
-def test_premium_commercial_tiers_excluded_from_headline_average(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Business Debit", "EMV Chip", "1.30%"],
-        ["", "Standard", "1.65%"],
-        ["Visa Platinum Business Debit", "EMV Chip", "1.55%"],
-        ["", "Standard", "1.90%"],
-        ["Visa Infinite Business Debit", "EMV Chip", "1.65%"],
-        ["", "Standard", "2.00%"],
-    ]
-    b = _pdf(rows, [60, 50, 40], tmp_path / "at.pdf")
-    result = pipeline.parse_visa(b, "AT")
-    block = pipeline._stat_block(result.commercial, result.commercial_headline)
-    assert block["avg"] < 1.6
-    assert block["max"] == 2.00
-
-
-def test_flat_fee_row_surfaces_instead_of_vanishing(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Consumer Debit", "Contactless", "EUR 0.02"],
-        ["Visa Consumer Credit", "Contactless", "0.30%"],
-    ]
-    b = _pdf(rows, [55, 60, 60], tmp_path / "nl.pdf")
-    result = pipeline.parse_visa(b, "NL")
-    assert result.consumer_debit == []
-    assert result.consumer_debit_flat_fee is not None and "0.02" in result.consumer_debit_flat_fee
-    assert any("flat fee" in w for w in result.warnings)
-
-
-def test_cap_amount_surfaces_as_warning(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Consumer Debit", "Standard", "0.20% (capped at GBP 0.50)"],
-    ]
-    b = _pdf(rows, [55, 60, 70], tmp_path / "gb.pdf")
-    result = pipeline.parse_visa(b, "IE")
-    assert any("capped at" in w and "GBP 0.50" in w for w in result.warnings)
-
-
-@pytest.mark.parametrize("phrasing", ["0.20% (capped at EUR 0.02)", "0.20% Max EUR 0.02", "0.20% (Maximum of EUR 0.02)"])
-def test_cap_detection_covers_max_phrasing_variant(tmp_path, phrasing):
-    rows = [["Product", "Fee Tier", "General"], ["Visa Consumer Debit", "Standard", phrasing]]
-    b = _pdf(rows, [55, 60, 70], tmp_path / f"nl_{hash(phrasing)}.pdf")
-    result = pipeline.parse_visa(b, "NL")
-    assert any("EUR 0.02" in w for w in result.warnings)
-
-
-def test_min_max_are_attributed_to_the_category_that_produced_them(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General", "Petrol", "Airlines"],
-        ["Visa Business Debit", "EMV Chip", "1.85%", "0.68%", "1.35%"],
-        ["Visa Corporate", "Standard", "2.05%", "0.68%", "1.35%"],
-    ]
-    b = _pdf(rows, [55, 30, 25, 25, 25], tmp_path / "de.pdf")
-    result = pipeline.parse_visa(b, "XX")
-    block = pipeline._stat_block(result.commercial, result.commercial_headline, result.commercial_labeled)
-    assert block["min"] == 0.68
-    assert block["max"] == 2.05
-    assert "min_label" in block and "max_label" in block
-
-
-def test_switzerland_is_exempt_from_the_eu_legal_cap_filter(tmp_path):
-    rows = [["Product", "Fee Tier", "General"], ["Visa Consumer Credit", "Standard", "0.55%"]]
-    b = _pdf(rows, [55, 60, 60], tmp_path / "ch.pdf")
-    result = pipeline.parse_visa(b, "CH")
-    assert result.consumer_credit == [0.55]
-    assert not any("dropped" in w for w in result.warnings)
-
-
-def test_ifr_capped_lookup_excludes_switzerland():
-    assert "CH" not in pipeline.IFR_CAPPED_ISO2
-    assert "DE" in pipeline.IFR_CAPPED_ISO2
-    assert "NO" in pipeline.IFR_CAPPED_ISO2
-
-
-def test_min_max_labels_include_additional_fixed_fee(tmp_path):
-    rows = [
-        ["Product", "Fee Tier", "General"],
-        ["Visa Business Credit", "Small Market Expense", "0.30%"],
-        ["Visa Infinite Business Credit", "Standard, Tier-1", "0.86% + EUR 0.03"],
-    ]
-    b = _pdf(rows, [70, 70, 50], tmp_path / "es3.pdf")
-    result = pipeline.parse_visa(b, "ES")
-    block = pipeline._stat_block(result.commercial, result.commercial_headline, result.commercial_labeled)
-    assert "+ EUR 0.03" in block["max_label"]
-
-
-# Switzerland's real Visa PDF splits consumer debit across acceptance
-# channels (Card Present - General / Token, Card Absent) IN THE SAME
-# CELL as the product name, and V PAY is a separate niche debit brand.
-# A user comparing the live dashboard to the source PDF caught this: the
-# headline blended all channels and both brands together (0.20/0.31/0.31/
-# 0.12/0.31/0.31 -> ~0.26%) instead of reporting the 0.20% "General" rate
-# that's actually on the price list.
-SWITZERLAND_REAL_ROWS = [
-    ["Product", "Fee Tier", "General", "Everyday Spend", "Airlines"],
-    ["Visa Consumer Debit", "Card Present - General", "0.20%", "0.12% (Capped CHF 0.36)", "-"],
-    ["", "Card Present - Token", "0.31%", "-", "-"],
-    ["", "Card Absent", "0.31%", "-", "-"],
-    ["V PAY Debit", "Card Present - General", "0.12% (Capped CHF 0.36)", "-", "-"],
-    ["V PAY Prepaid", "Card Present - Token", "0.31%", "-", "-"],
-    ["", "Card Absent", "0.31%", "-", "-"],
+EU_EEA_COUNTRIES = [
+    Country("Austria", "AT", True, "Western"),
+    Country("Belgium", "BE", True, "Western"),
+    Country("Bulgaria", "BG", True, "CEE"),
+    Country("Croatia", "HR", True, "CEE"),
+    Country("Cyprus", "CY", True, "Southern"),
+    Country("Czech Republic", "CZ", True, "CEE"),
+    Country("Denmark", "DK", True, "Nordic"),
+    Country("Estonia", "EE", True, "CEE"),
+    Country("Finland", "FI", True, "Nordic"),
+    Country("France", "FR", True, "Western"),
+    Country("Germany", "DE", True, "Western"),
+    Country("Greece", "GR", True, "Southern"),
+    Country("Hungary", "HU", True, "CEE"),
+    Country("Ireland", "IE", True, "Western"),
+    Country("Italy", "IT", True, "Southern"),
+    Country("Latvia", "LV", True, "CEE"),
+    Country("Lithuania", "LT", True, "CEE"),
+    Country("Luxembourg", "LU", True, "Western"),
+    Country("Malta", "MT", True, "Southern"),
+    Country("Netherlands", "NL", True, "Western"),
+    Country("Poland", "PL", True, "CEE"),
+    Country("Portugal", "PT", True, "Southern"),
+    Country("Romania", "RO", True, "CEE"),
+    Country("Slovakia", "SK", True, "CEE"),
+    Country("Slovenia", "SI", True, "CEE"),
+    Country("Spain", "ES", True, "Southern"),
+    Country("Sweden", "SE", True, "Nordic"),
+    Country("Iceland", "IS", False, "Nordic"),
+    Country("Liechtenstein", "LI", False, "Western"),
+    Country("Norway", "NO", False, "Nordic"),
+    Country("Switzerland", "CH", False, "Western", ifr_capped=False),
 ]
 
+REGIONS = ["CEE", "Western", "Nordic", "Southern"]
+COUNTRY_BY_ISO2 = {c.iso2: c for c in EU_EEA_COUNTRIES}
+IFR_CAPPED_ISO2 = {c.iso2 for c in EU_EEA_COUNTRIES if c.ifr_capped}
 
-def test_switzerland_channel_and_niche_brand_blend(tmp_path):
-    b = _pdf(SWITZERLAND_REAL_ROWS, [40, 50, 35, 45, 25], tmp_path / "ch2.pdf")
-    result = pipeline.parse_visa(b, "CH")
-    block = pipeline._stat_block(result.consumer_debit, pipeline._headline_for("consumer_debit", result.consumer_debit, result.consumer_debit_headline, "CH"))
-    assert block["avg"] == 0.20, f"expected the General-channel, main-brand rate (0.20%), got {block['avg']}"
-    assert block["min"] == 0.12 and block["max"] == 0.31, "full range across channels/brands must still be preserved"
+NAME_ALIASES = {
+    "Czech Republic": ["Czechia"],
+    "Denmark": ["Denmark, Greenland & Faroe Islands", "Denmark, Greenland"],
+}
+
+VISA_LISTING_URL = (
+    "https://www.visa.co.uk/about-visa/visa-in-europe/fees-and-interchange.html"
+)
+
+IFR_CAP = {"consumer_debit": 0.20, "consumer_credit": 0.30}
+
+# ---------------------------------------------------------------
+# fetch.py
+# ---------------------------------------------------------------
 
 
-def test_carry_forward_does_not_leak_channel_text_into_continuation_rows(tmp_path):
-    """The deeper root cause: a product+channel combined in one row must
-    not drag the channel text into rows that continue with a DIFFERENT
-    channel below it."""
-    b = _pdf(SWITZERLAND_REAL_ROWS, [40, 50, 35, 45, 25], tmp_path / "ch3.pdf")
-    parsed = pipeline.parse_pdf(b)
-    rows = pipeline.carry_forward_product_prefix(parsed.rows, pipeline.PRODUCT_MARKERS)
-    token_row = next(r for r in rows if "Token" in r.label and r.values == [0.31] and "V PAY" not in r.label)
-    assert "General" not in token_row.label, f"channel text leaked forward: {token_row.label!r}"
+class RobotsDisallowed(Exception):
+    def __init__(self, url: str, reason: str = "robots.txt"):
+        self.url = url
+        self.reason = reason
+        super().__init__(f"Access denied ({reason}): {url}")
+
+
+USER_AGENT = (
+    "CardFeeTrackerBot/1.0 "
+    "(public-interest research; occasional read-only fetch of publicly "
+    "published interchange rate sheets; run manually by the project owner)"
+)
+
+REQUEST_DELAY_SECONDS = 1.5
+TIMEOUT_SECONDS = 20
+MAX_RETRIES = 3
+
+_robots_cache: dict[str, urllib.robotparser.RobotFileParser] = {}
+
+
+def _fetch_robots_txt(origin: str) -> str:
+    robots_url = origin.rstrip("/") + "/robots.txt"
+    try:
+        resp = requests.get(robots_url, headers={"User-Agent": USER_AGENT}, timeout=TIMEOUT_SECONDS)
+        return resp.text if resp.status_code == 200 else ""
+    except requests.RequestException as exc:
+        log.warning("Could not read robots.txt for %s (%s); proceeding cautiously", origin, exc)
+        return ""
+
+
+def _robots_for(url: str) -> urllib.robotparser.RobotFileParser:
+    origin = "{0.scheme}://{0.netloc}".format(urlparse(url))
+    if origin not in _robots_cache:
+        raw = _fetch_robots_txt(origin)
+        rp = urllib.robotparser.RobotFileParser()
+        rp.parse(raw.splitlines())
+        _robots_cache[origin] = rp
+    return _robots_cache[origin]
+
+
+def allowed(url: str) -> bool:
+    try:
+        return _robots_for(url).can_fetch(USER_AGENT, url)
+    except Exception:
+        return True
+
+
+def _get(url: str, *, as_binary: bool):
+    if not allowed(url):
+        log.error("Blocked by robots.txt, skipping: %s", url)
+        raise RobotsDisallowed(url)
+
+    last_exc = None
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
+            resp = requests.get(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"}, timeout=TIMEOUT_SECONDS)
+            if resp.status_code in (401, 403, 429):
+                log.error("%s responded HTTP %d -- treating as a deliberate block, not retrying", url, resp.status_code)
+                raise RobotsDisallowed(url, reason=f"HTTP {resp.status_code}")
+            resp.raise_for_status()
+            time.sleep(REQUEST_DELAY_SECONDS)
+            return resp.content if as_binary else resp.text
+        except requests.RequestException as exc:
+            last_exc = exc
+            wait = 2**attempt
+            log.warning("Fetch failed (attempt %d/%d) for %s: %s -- retrying in %ss", attempt, MAX_RETRIES, url, exc, wait)
+            time.sleep(wait)
+    log.error("Giving up on %s after %d attempts: %s", url, MAX_RETRIES, last_exc)
+    return None
+
+
+def fetch_html(url: str):
+    return _get(url, as_binary=False)
+
+
+def fetch_pdf_bytes(url: str):
+    return _get(url, as_binary=True)
+
+
+# ---------------------------------------------------------------
+# discover.py
+# ---------------------------------------------------------------
+
+PDF_HREF_RE = re.compile(r"\.pdf(\?.*)?$", re.IGNORECASE)
+
+
+def _names_for(country: Country) -> list[str]:
+    return [country.name] + NAME_ALIASES.get(country.name, [])
+
+
+def discover_visa(html: str, base_url: str, countries: list[Country]) -> dict[str, str]:
+    soup = BeautifulSoup(html, "html.parser")
+    pdf_links = soup.find_all("a", href=PDF_HREF_RE)
+
+    found: dict[str, str] = {}
+    for country in countries:
+        for link in pdf_links:
+            text = link.get_text(" ", strip=True).lower()
+            if not text:
+                continue
+            if any(text.startswith(name.lower()) for name in _names_for(country)):
+                found[country.iso2] = urljoin(base_url, link["href"])
+                break
+        if country.iso2 not in found:
+            log.warning("Visa: no PDF link matched for %s", country.name)
+    return found
+
+
+# ---------------------------------------------------------------
+# parse_common.py
+# ---------------------------------------------------------------
+
+PCT_RE = re.compile(r"(\d{1,2}[.,]\d{1,3})\s*%")
+
+# A handful of countries publish a flat currency fee for a product instead
+# of a percentage at all (Netherlands consumer debit: "EUR 0.02" per
+# transaction, confirmed directly from Visa's own PDF). Since the rest of
+# this parser is built entirely around percentage matching, a row like this
+# has NO "%" anywhere and would otherwise silently produce zero values with
+# no explanation. This regex exists purely so parse_visa() can notice the
+# row had *some* rate information and say so, rather than going quiet.
+FLAT_FEE_RE = re.compile(r"(?:€|£|[A-Z]{3})\s?\d+[.,]\d{1,2}(?!\s?%)")
+
+
+@dataclass
+class Row:
+    label: str
+    values: list[float]
+    page: int
+    raw_text: str = ""
+
+
+@dataclass
+class ParsedPdf:
+    rows: list[Row]
+    page_text: list[str]
+    used_table_extraction: bool
+    warnings: list[str] = field(default_factory=list)
+
+
+def _percents_in(cell: str) -> list[float]:
+    return [float(m.group(1).replace(",", ".")) for m in PCT_RE.finditer(cell)]
+
+
+def _row_from_table_row(cells) -> Row | None:
+    clean = [c.strip() for c in cells if c and c.strip()]
+    if not clean:
+        return None
+    values: list[float] = []
+    label_parts: list[str] = []
+    for cell in clean:
+        found = _percents_in(cell)
+        if found:
+            values.extend(found)
+        else:
+            label_parts.append(cell)
+    raw = " ".join(clean)
+    if not values:
+        if not FLAT_FEE_RE.search(raw):
+            return None
+    return Row(label=" ".join(label_parts), values=values, page=-1, raw_text=raw)
+
+
+def _rows_from_text(text: str) -> list[Row]:
+    rows = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        vals = _percents_in(line)
+        if not vals:
+            continue
+        first_pct_pos = PCT_RE.search(line).start()
+        label = line[:first_pct_pos].strip(" \t-\u2013")
+        rows.append(Row(label=label, values=vals, page=-1, raw_text=line))
+    return rows
+
+
+def parse_pdf(pdf_bytes: bytes) -> ParsedPdf:
+    rows: list[Row] = []
+    page_text: list[str] = []
+    used_tables = False
+    warnings: list[str] = []
+
+    with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
+        for page_no, page in enumerate(pdf.pages):
+            text = page.extract_text() or ""
+            page_text.append(text)
+
+            tables = []
+            try:
+                tables = page.extract_tables() or []
+            except Exception as exc:
+                warnings.append(f"page {page_no}: extract_tables() failed: {exc}")
+
+            page_rows: list[Row] = []
+            for table in tables:
+                for raw_row in table:
+                    r = _row_from_table_row(raw_row)
+                    if r:
+                        r.page = page_no
+                        page_rows.append(r)
+
+            if page_rows:
+                used_tables = True
+                rows.extend(page_rows)
+            elif text:
+                for r in _rows_from_text(text):
+                    r.page = page_no
+                    rows.append(r)
+
+    return ParsedPdf(rows=rows, page_text=page_text, used_table_extraction=used_tables, warnings=warnings)
+
+
+CHANNEL_SPLIT_RE = re.compile(r"\s+(Card Present|Card Absent)\b", re.IGNORECASE)
+
+
+def carry_forward_product_prefix(rows: list[Row], product_markers: list[str]) -> list[Row]:
+    out = []
+    last_product = ""
+    last_page = None
+    markers = [m.lower() for m in product_markers]
+    for r in rows:
+        if r.page != last_page:
+            last_page = r.page
+            last_product = ""
+        low = r.label.lower()
+        if any(low.startswith(m) for m in markers):
+            # A row can combine the product name AND its own channel/tier in
+            # one cell (e.g. "Visa Consumer Debit Card Present - General").
+            # Only the part before a channel marker is the product name --
+            # carrying the whole thing forward would drag "Card Present -
+            # General" into every later continuation row too, corrupting
+            # channel detection for Token/Card Absent variants below it.
+            split = CHANNEL_SPLIT_RE.search(r.label)
+            last_product = r.label[: split.start()].strip() if split else r.label
+            out.append(r)
+        elif last_product:
+            out.append(Row(label=f"{last_product} {r.label}".strip(), values=r.values, page=r.page, raw_text=r.raw_text))
+        else:
+            out.append(r)
+    return out
+
+
+# ---------------------------------------------------------------
+# parse_visa.py
+# ---------------------------------------------------------------
+
+PRODUCT_MARKERS = ["visa", "v pay"]
+CONSUMER_CREDIT_HINTS = ["consumer credit", "consumer deferred debit"]
+CONSUMER_DEBIT_HINTS = ["consumer debit", "consumer prepaid", "v pay debit", "v pay prepaid"]
+COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", "infinite", "commercial"]
+
+# Value-conditional qualifiers (small-transaction discounts, merchant-volume
+# tiers, category-specific surcharges/discounts) describe a SPECIAL rate for
+# a specific condition, not the headline rate.
+TIER_QUALIFIER_RE = re.compile(
+    r"\b(up to|over|less than|more than|tier[\s-]?\d|micro[\s-]?payment|low value|"
+    r"high value|petrol|toll|charity|government|retail|contactless high value|"
+    r"sector development|bill payment|meal voucher|fuel|electric vehicle|"
+    r"wholesale|fleet|purchasing|large market|small market|late presentment|"
+    r"large ticket|incentive)\b",
+    re.IGNORECASE,
+)
+
+# Commercial cards aren't one product -- Business/Platinum/Infinite/Corporate
+# tiers are priced differently. The base "Business" tier is the closest
+# thing to a representative headline rate; premium tiers still count toward
+# min/max but are excluded from the average.
+PREMIUM_COMMERCIAL_TIER_RE = re.compile(r"\b(platinum|infinite|corporate|purchasing)\b", re.IGNORECASE)
+
+# Some countries (confirmed on Switzerland's real Visa PDF) publish several
+# rows for the SAME base consumer product split by acceptance channel: "Card
+# Present - General", "Card Present - Token", "Card Absent". Only "General"
+# is the representative rate a merchant would normally see -- Token/Card
+# Absent are narrower channel-specific variants that would otherwise get
+# blended into the headline average alongside General, inflating it (found
+# by a user comparing the live dashboard number against the source PDF).
+# Channel-split rows still count toward min/max; only the *headline* average
+# is restricted to the General channel when a General row exists at all.
+CHANNEL_VARIANT_RE = re.compile(r"\b(token|card absent)\b", re.IGNORECASE)
+GENERAL_CHANNEL_RE = re.compile(r"\bgeneral\b", re.IGNORECASE)
+
+# V PAY is a separate, niche Visa debit-only brand (largely historical,
+# concentrated in a few markets) with its own, usually lower, rate --
+# distinct from the main "Visa Consumer Debit" product. Blending it into
+# the headline average understates the rate most cardholders/merchants
+# actually see, the same class of issue as blending Platinum/Infinite into
+# commercial. Still counts toward min/max; excluded from the headline only.
+NICHE_DEBIT_BRAND_RE = re.compile(r"\bv[\s-]?pay\b", re.IGNORECASE)
+
+# consumer_debit/consumer_credit are legally capped EU-wide (0.20%/0.30%,
+# +/- a small buffer for documented rounding). A value above that ceiling
+# in these buckets is never a genuine consumer rate for an EEA country --
+# it's contamination, almost always from a commercial merchant-category
+# table (Petrol Station, Night Club, Retailer...) whose rows don't repeat a
+# product name and so inherit a stale "Consumer Credit" prefix carried
+# forward from many rows above (found on Spain's real PDF). Switzerland is
+# NOT EU/EEA and not bound by this cap, so it's exempted via IFR_CAPPED_ISO2.
+CAP_RE = re.compile(
+    r"(?:capped at|cap of|max(?:imum)?(?:\s+of)?)\s*:?\s*([A-Z]{0,3}\s?[\d.,]+)",
+    re.IGNORECASE,
+)
+
+# Some rate sheets add a small fixed fee ON TOP of the percentage for every
+# transaction (e.g. "0.86% + EUR 0.03", distinct from a CAP which is a
+# ceiling). Worth showing in the label so "0.86%" doesn't read as the whole
+# story when there's also a few cents added per transaction.
+ADDITIONAL_FEE_RE = re.compile(r"\+\s*([A-Z]{0,3}\s?[\d.,]+)(?!\s*%)")
+
+
+def _is_headline_row(label: str) -> bool:
+    return not TIER_QUALIFIER_RE.search(label)
+
+
+def _is_general_channel_eligible(label: str) -> bool:
+    """For consumer_debit/consumer_credit: True unless this row is a
+    Token/Card-Absent channel variant with no "General" in its own label."""
+    if not CHANNEL_VARIANT_RE.search(label):
+        return True
+    return bool(GENERAL_CHANNEL_RE.search(label))
+
+
+def _cap_note(label: str) -> str | None:
+    m = CAP_RE.search(label)
+    if not m:
+        return None
+    return f"rate sheet also states a cap: \"{m.group(0)}\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
+
+
+def _additional_fee_suffix(raw_text: str) -> str:
+    m = ADDITIONAL_FEE_RE.search(raw_text)
+    return f" + {m.group(1).strip()}" if m else ""
+
+
+@dataclass
+class CountryRateResult:
+    iso2: str
+    network: str = "visa"
+    consumer_debit: list[float] = field(default_factory=list)
+    consumer_credit: list[float] = field(default_factory=list)
+    commercial: list[float] = field(default_factory=list)
+    consumer_debit_headline: list[float] = field(default_factory=list)
+    consumer_credit_headline: list[float] = field(default_factory=list)
+    commercial_headline: list[float] = field(default_factory=list)
+    consumer_debit_labeled: list[tuple[str, float]] = field(default_factory=list)
+    consumer_credit_labeled: list[tuple[str, float]] = field(default_factory=list)
+    commercial_labeled: list[tuple[str, float]] = field(default_factory=list)
+    consumer_debit_flat_fee: str | None = None
+    consumer_credit_flat_fee: str | None = None
+    commercial_flat_fee: str | None = None
+    unclassified: list[tuple[str, list[float]]] = field(default_factory=list)
+    used_table_extraction: bool = False
+    warnings: list[str] = field(default_factory=list)
+    source_url: str | None = None
+
+
+def _clean_category_label(row_label: str, product_prefix_hint: str) -> str:
+    low = row_label.lower()
+    for hint in product_prefix_hint.split("|"):
+        hint = hint.strip()
+        if hint and low.startswith(hint):
+            return row_label[len(hint):].strip(" -\u2013") or "General"
+    return row_label.strip() or "General"
+
+
+def _classify(label: str) -> str:
+    low = label.lower()
+    if any(h in low for h in CONSUMER_CREDIT_HINTS):
+        return "consumer_credit"
+    if any(h in low for h in CONSUMER_DEBIT_HINTS):
+        return "consumer_debit"
+    if any(h in low for h in COMMERCIAL_HINTS):
+        return "commercial"
+    return "unclassified"
+
+
+def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
+    parsed = parse_pdf(pdf_bytes)
+    rows = carry_forward_product_prefix(parsed.rows, PRODUCT_MARKERS)
+
+    result = CountryRateResult(iso2=iso2, used_table_extraction=parsed.used_table_extraction, warnings=list(parsed.warnings))
+
+    cap_notes_seen = set()
+    flat_fee_notes_seen = set()
+    for row in rows:
+        bucket = _classify(row.label)
+        headline = _is_headline_row(row.label)
+        cap = _cap_note(row.raw_text or row.label)
+        if cap and cap not in cap_notes_seen and bucket in ("consumer_credit", "consumer_debit"):
+            cap_notes_seen.add(cap)
+            result.warnings.append(cap)
+
+        if not row.values and bucket in ("consumer_credit", "consumer_debit", "commercial"):
+            m = FLAT_FEE_RE.search(row.raw_text)
+            if m:
+                amount = m.group(0)
+                setattr(result, f"{bucket}_flat_fee", amount)
+                note = (
+                    f"rate sheet states a flat fee ({amount}) for {bucket.replace('_', ' ')}, "
+                    "not a percentage -- shown as a fixed amount instead of %, not counted in the range"
+                )
+                if note not in flat_fee_notes_seen:
+                    flat_fee_notes_seen.add(note)
+                    result.warnings.append(note)
+            continue
+
+        if bucket in IFR_CAP and iso2 in IFR_CAPPED_ISO2:
+            ceiling = IFR_CAP[bucket] + 0.02
+            in_range = [v for v in row.values if v <= ceiling]
+            out_of_range = [v for v in row.values if v > ceiling]
+            if out_of_range:
+                note = (
+                    f"dropped {len(out_of_range)} value(s) over {ceiling:.2f}% from {bucket.replace('_', ' ')} "
+                    f"(e.g. {out_of_range[0]}%) -- looks like a mis-attributed commercial/merchant-category row, "
+                    "not a real consumer rate; verify against the source PDF if unsure"
+                )
+                if note not in result.warnings:
+                    result.warnings.append(note)
+            row = replace(row, values=in_range)
+
+        # NEW: channel-variant exclusion for capped consumer categories
+        channel_ok = _is_general_channel_eligible(row.label) if bucket in ("consumer_debit", "consumer_credit") else True
+
+        headline_values = [row.values[0]] if headline and channel_ok and row.values else []
+        if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
+            headline_values = []
+        if bucket == "consumer_debit" and NICHE_DEBIT_BRAND_RE.search(row.label):
+            headline_values = []
+
+        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS)) + _additional_fee_suffix(row.raw_text or row.label)
+        labeled = [(category_label, v) for v in row.values]
+
+        if bucket == "consumer_credit":
+            result.consumer_credit.extend(row.values)
+            result.consumer_credit_headline.extend(headline_values)
+            result.consumer_credit_labeled.extend(labeled)
+        elif bucket == "consumer_debit":
+            result.consumer_debit.extend(row.values)
+            result.consumer_debit_headline.extend(headline_values)
+            result.consumer_debit_labeled.extend(labeled)
+        elif bucket == "commercial":
+            result.commercial.extend(row.values)
+            result.commercial_headline.extend(headline_values)
+            result.commercial_labeled.extend(labeled)
+        else:
+            result.unclassified.append((row.label, row.values))
+
+    if not result.used_table_extraction:
+        result.warnings.append("no ruled table detected -- fell back to text-line parsing, numbers for this country are lower confidence")
+    if not result.consumer_debit and not result.consumer_debit_flat_fee:
+        result.warnings.append("no consumer_debit rate matched")
+    if not result.consumer_credit:
+        result.warnings.append("no consumer_credit rate matched")
+
+    return result
+
+
+# ---------------------------------------------------------------
+# aggregate.py
+# ---------------------------------------------------------------
+
+CATEGORIES = ["consumer_debit", "consumer_credit", "commercial"]
+CAPPED_CATEGORIES = {"consumer_debit", "consumer_credit"}
+
+
+def _stat_block(all_values: list[float], headline_values: list[float] | None = None, labeled_values: list[tuple[str, float]] | None = None, flat_fee: str | None = None):
+    if not all_values:
+        return {"flat_fee": flat_fee} if flat_fee else None
+    avg_source = headline_values if headline_values else all_values
+    block = {
+        "avg": round(statistics.mean(avg_source), 4),
+        "min": round(min(all_values), 4),
+        "max": round(max(all_values), 4),
+        "n_values": len(all_values),
+    }
+    if flat_fee:
+        block["flat_fee"] = flat_fee
+    if labeled_values:
+        min_v, max_v = block["min"], block["max"]
+        min_match = next((lbl for lbl, v in labeled_values if round(v, 4) == min_v), None)
+        max_match = next((lbl for lbl, v in labeled_values if round(v, 4) == max_v), None)
+        if min_match:
+            block["min_label"] = min_match
+        if max_match:
+            block["max_label"] = max_match
+    return block
+
+
+def _headline_for(category: str, all_values: list[float], headline_values: list[float], iso2: str | None = None) -> list[float]:
+    if headline_values:
+        return headline_values
+    if category in CAPPED_CATEGORIES and all_values and (iso2 is None or iso2 in IFR_CAPPED_ISO2):
+        return [max(all_values)]
+    return []
+
+
+def build_summary(results: list) -> dict[str, Any]:
+    by_network: dict[str, list] = {"visa": [], "mastercard": []}
+    for r in results:
+        by_network.setdefault(r.network, []).append(r)
+
+    summary: dict[str, Any] = {}
+    for network, network_results in by_network.items():
+        network_summary = {}
+        for category in CATEGORIES:
+            per_country_avgs = []
+            for r in network_results:
+                all_vals = getattr(r, category)
+                headline = _headline_for(category, all_vals, getattr(r, f"{category}_headline", []), r.iso2)
+                block = _stat_block(all_vals, headline)
+                if block and block.get("avg") is not None:
+                    per_country_avgs.append(block["avg"])
+            if per_country_avgs:
+                network_summary[category] = {
+                    "avg": round(statistics.mean(per_country_avgs), 4),
+                    "min": round(min(per_country_avgs), 4),
+                    "max": round(max(per_country_avgs), 4),
+                    "n_countries": len(per_country_avgs),
+                }
+            else:
+                network_summary[category] = None
+        summary[network] = network_summary
+    return summary
+
+
+def build_country_table(results: list) -> list[dict[str, Any]]:
+    by_iso2: dict[str, dict[str, Any]] = {
+        iso2: {"iso2": iso2, "name": country.name, "eu_member": country.eu_member, "region": country.region}
+        for iso2, country in COUNTRY_BY_ISO2.items()
+    }
+    for r in results:
+        entry = by_iso2[r.iso2]
+        entry[r.network] = {
+            "consumer_debit": _stat_block(r.consumer_debit, _headline_for("consumer_debit", r.consumer_debit, r.consumer_debit_headline, r.iso2), r.consumer_debit_labeled, r.consumer_debit_flat_fee),
+            "consumer_credit": _stat_block(r.consumer_credit, _headline_for("consumer_credit", r.consumer_credit, r.consumer_credit_headline, r.iso2), r.consumer_credit_labeled, r.consumer_credit_flat_fee),
+            "commercial": _stat_block(r.commercial, r.commercial_headline, r.commercial_labeled, r.commercial_flat_fee),
+            "source_url": r.source_url,
+            "used_table_extraction": r.used_table_extraction,
+            "warnings": r.warnings,
+        }
+    return sorted(by_iso2.values(), key=lambda e: e["name"])
+
+
+def build_output(results: list) -> dict[str, Any]:
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "scope": {"fee_type": "interchange", "networks": ["visa", "mastercard"], "region": "EU/EEA", "country_count": len(COUNTRY_BY_ISO2)},
+        "note": "",
+        "ifr_cap": IFR_CAP,
+        "regions": REGIONS,
+        "summary": build_summary(results),
+        "countries": build_country_table(results),
+    }
+
+
+# ---------------------------------------------------------------
+# orchestration
+# ---------------------------------------------------------------
+
+
+def run_visa_scrape() -> list[CountryRateResult]:
+    html = fetch_html(VISA_LISTING_URL)
+    if not html:
+        raise RuntimeError("Could not load the Visa listing page")
+
+    pdf_urls = discover_visa(html, VISA_LISTING_URL, EU_EEA_COUNTRIES)
+    log.info("Discovered %d/%d Visa PDF links", len(pdf_urls), len(EU_EEA_COUNTRIES))
+
+    results = []
+    for country in EU_EEA_COUNTRIES:
+        url = pdf_urls.get(country.iso2)
+        if not url:
+            continue
+        try:
+            pdf_bytes = fetch_pdf_bytes(url)
+            if not pdf_bytes:
+                continue
+            result = parse_visa(pdf_bytes, country.iso2)
+            result.source_url = url
+            results.append(result)
+            log.info("Parsed %s: debit=%s credit=%s commercial=%s", country.name, result.consumer_debit[:1], result.consumer_credit[:1], result.commercial[:1])
+        except RobotsDisallowed as exc:
+            log.error("Skipping %s: %s", country.name, exc)
+    return results
