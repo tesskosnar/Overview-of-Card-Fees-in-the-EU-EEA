@@ -219,7 +219,7 @@ PCT_RE = re.compile(r"(\d{1,2}[.,]\d{1,3})\s*%")
 # has NO "%" anywhere and would otherwise silently produce zero values with
 # no explanation. This regex exists purely so parse_visa() can notice the
 # row had *some* rate information and say so, rather than going quiet.
-FLAT_FEE_RE = re.compile(r"(?:€|EUR|GBP|£)\s?\d+[.,]\d{1,2}(?!\s?%)", re.IGNORECASE)
+FLAT_FEE_RE = re.compile(r"(?:€|£|[A-Z]{3})\s?\d+[.,]\d{1,2}(?!\s?%)")
 
 
 @dataclass
@@ -349,7 +349,7 @@ def carry_forward_product_prefix(rows: list[Row], product_markers: list[str]) ->
 PRODUCT_MARKERS = ["visa", "v pay"]
 CONSUMER_CREDIT_HINTS = ["consumer credit", "consumer deferred debit"]
 CONSUMER_DEBIT_HINTS = ["consumer debit", "consumer prepaid", "v pay debit", "v pay prepaid"]
-COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", "infinite"]
+COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", "infinite", "commercial"]
 
 # Value-conditional qualifiers (small-transaction discounts, merchant-volume
 # tiers, category-specific surcharges/discounts) describe a SPECIAL rate for
