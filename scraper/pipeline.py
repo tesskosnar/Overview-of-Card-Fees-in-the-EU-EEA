@@ -1,20 +1,14 @@
 """
 pipeline.py
 ===========
-Consolidated Visa interchange-fee scraper for the Colab-based
-workflow. This is the SAME logic as the original GitHub Actions
-scraper (sources.py, fetch.py, discover.py, parse_common.py,
-parse_visa.py, aggregate.py), combined into one file because a
-notebook works better with fewer, larger cells than a package of
-small files.
+Consolidated Visa interchange-fee scraper for the Colab/GitHub-Actions
+workflow. Combines sources.py, fetch.py, discover.py, parse_common.py,
+parse_visa.py, aggregate.py into one file.
 
-What's intentionally NOT here, vs. the GitHub Actions version:
-  - Mastercard live scraping (mastercard.com blocks automated
-    fetches at the listing-page level -- confirmed repeatedly).
-    Mastercard data instead comes from manual_mastercard.json,
-    hand-researched country by country.
-  - media_search.py (Brave Search + GDELT "public observations").
-    Dropped for simplicity; can be re-added later if wanted.
+Mastercard is NOT live-scraped here -- mastercard.com blocks automated
+fetches at the listing-page level (confirmed repeatedly). Mastercard data
+comes from manual_mastercard_research.json, hand-researched country by
+country -- see main.py.
 """
 
 from __future__ import annotations
@@ -220,13 +214,11 @@ PCT_RE = re.compile(r"(\d{1,2}[.,]\d{1,3})\s*%")
 
 # A handful of countries publish a flat currency fee for a product instead
 # of a percentage at all (Netherlands consumer debit: "EUR 0.02" per
-# transaction, both on Visa and Mastercard -- confirmed directly from each
-# network's own PDF, not inferred). Since the rest of this parser is built
-# entirely around percentage matching, a row like this has NO "%" anywhere
-# and silently produces zero values -- the row just vanishes with no error,
-# which is worse than a wrong number because nothing ever flags it. This
-# regex exists purely so parse_visa() can notice the row had *some* rate
-# information and say so, rather than going quiet.
+# transaction, confirmed directly from Visa's own PDF). Since the rest of
+# this parser is built entirely around percentage matching, a row like this
+# has NO "%" anywhere and would otherwise silently produce zero values with
+# no explanation. This regex exists purely so parse_visa() can notice the
+# row had *some* rate information and say so, rather than going quiet.
 FLAT_FEE_RE = re.compile(r"(?:€|EUR|GBP|£)\s?\d+[.,]\d{1,2}(?!\s?%)", re.IGNORECASE)
 
 
@@ -264,9 +256,6 @@ def _row_from_table_row(cells) -> Row | None:
             label_parts.append(cell)
     raw = " ".join(clean)
     if not values:
-        # No percentage anywhere in this row. Only worth keeping if it looks
-        # like a flat-fee row (a bare currency amount) -- otherwise it's
-        # genuinely just a label/header row with nothing to report.
         if not FLAT_FEE_RE.search(raw):
             return None
     return Row(label=" ".join(label_parts), values=values, page=-1, raw_text=raw)
@@ -323,6 +312,9 @@ def parse_pdf(pdf_bytes: bytes) -> ParsedPdf:
     return ParsedPdf(rows=rows, page_text=page_text, used_table_extraction=used_tables, warnings=warnings)
 
 
+CHANNEL_SPLIT_RE = re.compile(r"\s+(Card Present|Card Absent)\b", re.IGNORECASE)
+
+
 def carry_forward_product_prefix(rows: list[Row], product_markers: list[str]) -> list[Row]:
     out = []
     last_product = ""
@@ -334,32 +326,20 @@ def carry_forward_product_prefix(rows: list[Row], product_markers: list[str]) ->
             last_product = ""
         low = r.label.lower()
         if any(low.startswith(m) for m in markers):
-            last_product = r.label
+            # A row can combine the product name AND its own channel/tier in
+            # one cell (e.g. "Visa Consumer Debit Card Present - General").
+            # Only the part before a channel marker is the product name --
+            # carrying the whole thing forward would drag "Card Present -
+            # General" into every later continuation row too, corrupting
+            # channel detection for Token/Card Absent variants below it.
+            split = CHANNEL_SPLIT_RE.search(r.label)
+            last_product = r.label[: split.start()].strip() if split else r.label
             out.append(r)
         elif last_product:
             out.append(Row(label=f"{last_product} {r.label}".strip(), values=r.values, page=r.page, raw_text=r.raw_text))
         else:
             out.append(r)
     return out
-
-
-PLAUSIBLE_RANGE = {
-    "consumer_debit": (0.15, 0.25),
-    "consumer_credit": (0.15, 0.35),
-}
-
-
-def plausibility_warnings(bucket_name: str, values: list[float]) -> list[str]:
-    lo_hi = PLAUSIBLE_RANGE.get(bucket_name)
-    if lo_hi is None or not values:
-        return []
-    lo, hi = lo_hi
-    return [
-        f"{bucket_name} value {v}% is outside the expected {lo}%-{hi}% range "
-        f"for an EU/EEA consumer card -- likely a parsing slip, verify against the source PDF"
-        for v in values
-        if v < lo or v > hi
-    ]
 
 
 # ---------------------------------------------------------------
@@ -373,12 +353,7 @@ COMMERCIAL_HINTS = ["business", "corporate", "purchasing", "fleet", "platinum", 
 
 # Value-conditional qualifiers (small-transaction discounts, merchant-volume
 # tiers, category-specific surcharges/discounts) describe a SPECIAL rate for
-# a specific condition, not the headline rate. A country like Spain publishes
-# both a "<= EUR 20" discounted tier and the standard tier for the same
-# product; averaging them together produces a number that matches neither
-# the EU-cap headline rate nor any single real transaction. These rows still
-# count toward min/max (they're real, published rates) but are excluded from
-# the primary/headline average.
+# a specific condition, not the headline rate.
 TIER_QUALIFIER_RE = re.compile(
     r"\b(up to|over|less than|more than|tier[\s-]?\d|micro[\s-]?payment|low value|"
     r"high value|petrol|toll|charity|government|retail|contactless high value|"
@@ -388,24 +363,40 @@ TIER_QUALIFIER_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Commercial cards aren't one product -- a single rate sheet publishes
-# Business Debit/Credit alongside Platinum, Infinite, and Corporate tiers,
-# each priced differently (often quite a bit higher). Averaging every tier
-# together produces a number that matches no actual card a merchant holds.
-# The base "Business" tier is the closest thing to a representative
-# headline rate; premium tiers still count toward min/max (they're real,
-# published rates) but are excluded from the average.
-PREMIUM_COMMERCIAL_TIER_RE = re.compile(
-    r"\b(platinum|infinite|corporate|purchasing)\b", re.IGNORECASE,
-)
+# Commercial cards aren't one product -- Business/Platinum/Infinite/Corporate
+# tiers are priced differently. The base "Business" tier is the closest
+# thing to a representative headline rate; premium tiers still count toward
+# min/max but are excluded from the average.
+PREMIUM_COMMERCIAL_TIER_RE = re.compile(r"\b(platinum|infinite|corporate|purchasing)\b", re.IGNORECASE)
 
-# Some rate sheets state a percentage AND an absolute cap in the same cell
-# (e.g. "0.20% (capped at RON 20.00)", "0.20% (capped at £0.50)"). The
-# percentage alone understates the true cost only for very large
-# transactions, but the cap itself is genuinely useful information that a
-# plain average would silently drop. Surface it as a warning rather than
-# trying to model it numerically (the cap currency/amount varies by country
-# and isn't comparable across them without a transaction-size assumption).
+# Some countries (confirmed on Switzerland's real Visa PDF) publish several
+# rows for the SAME base consumer product split by acceptance channel: "Card
+# Present - General", "Card Present - Token", "Card Absent". Only "General"
+# is the representative rate a merchant would normally see -- Token/Card
+# Absent are narrower channel-specific variants that would otherwise get
+# blended into the headline average alongside General, inflating it (found
+# by a user comparing the live dashboard number against the source PDF).
+# Channel-split rows still count toward min/max; only the *headline* average
+# is restricted to the General channel when a General row exists at all.
+CHANNEL_VARIANT_RE = re.compile(r"\b(token|card absent)\b", re.IGNORECASE)
+GENERAL_CHANNEL_RE = re.compile(r"\bgeneral\b", re.IGNORECASE)
+
+# V PAY is a separate, niche Visa debit-only brand (largely historical,
+# concentrated in a few markets) with its own, usually lower, rate --
+# distinct from the main "Visa Consumer Debit" product. Blending it into
+# the headline average understates the rate most cardholders/merchants
+# actually see, the same class of issue as blending Platinum/Infinite into
+# commercial. Still counts toward min/max; excluded from the headline only.
+NICHE_DEBIT_BRAND_RE = re.compile(r"\bv[\s-]?pay\b", re.IGNORECASE)
+
+# consumer_debit/consumer_credit are legally capped EU-wide (0.20%/0.30%,
+# +/- a small buffer for documented rounding). A value above that ceiling
+# in these buckets is never a genuine consumer rate for an EEA country --
+# it's contamination, almost always from a commercial merchant-category
+# table (Petrol Station, Night Club, Retailer...) whose rows don't repeat a
+# product name and so inherit a stale "Consumer Credit" prefix carried
+# forward from many rows above (found on Spain's real PDF). Switzerland is
+# NOT EU/EEA and not bound by this cap, so it's exempted via IFR_CAPPED_ISO2.
 CAP_RE = re.compile(
     r"(?:capped at|cap of|max(?:imum)?(?:\s+of)?)\s*:?\s*([A-Z]{0,3}\s?[\d.,]+)",
     re.IGNORECASE,
@@ -420,6 +411,14 @@ ADDITIONAL_FEE_RE = re.compile(r"\+\s*([A-Z]{0,3}\s?[\d.,]+)(?!\s*%)")
 
 def _is_headline_row(label: str) -> bool:
     return not TIER_QUALIFIER_RE.search(label)
+
+
+def _is_general_channel_eligible(label: str) -> bool:
+    """For consumer_debit/consumer_credit: True unless this row is a
+    Token/Card-Absent channel variant with no "General" in its own label."""
+    if not CHANNEL_VARIANT_RE.search(label):
+        return True
+    return bool(GENERAL_CHANNEL_RE.search(label))
 
 
 def _cap_note(label: str) -> str | None:
@@ -457,10 +456,6 @@ class CountryRateResult:
 
 
 def _clean_category_label(row_label: str, product_prefix_hint: str) -> str:
-    """Strip the repeated product name (e.g. "Visa Consumer Debit") off a
-    row's label so what's left is just the merchant-category/tier part
-    (e.g. "Petrol", "Retail Tier 3") -- the bit that actually explains why
-    this particular value is the min or the max."""
     low = row_label.lower()
     for hint in product_prefix_hint.split("|"):
         hint = hint.strip()
@@ -495,6 +490,7 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
         if cap and cap not in cap_notes_seen and bucket in ("consumer_credit", "consumer_debit"):
             cap_notes_seen.add(cap)
             result.warnings.append(cap)
+
         if not row.values and bucket in ("consumer_credit", "consumer_debit", "commercial"):
             m = FLAT_FEE_RE.search(row.raw_text)
             if m:
@@ -507,29 +503,8 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
                 if note not in flat_fee_notes_seen:
                     flat_fee_notes_seen.add(note)
                     result.warnings.append(note)
-            continue  # nothing numeric to add to any bucket
-        # A row can hold several values across unlabeled columns (e.g. a
-        # "General" column followed by a "Government Payments" column that
-        # only appears in the table's header, never repeated per-row). The
-        # keyword check above catches qualifiers that DO show up in the row
-        # text; this positional check is the fallback for ones that don't --
-        # across every rate sheet seen so far, the first (leftmost) value in
-        # a row is consistently the general/standard rate, with narrower
-        # merchant-category or payment-type rates following it.
-        headline_values = [row.values[0]] if headline and row.values else []
-        if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
-            headline_values = []  # premium tier: counts toward range, not the headline blend
-        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS)) + _additional_fee_suffix(row.raw_text or row.label)
+            continue
 
-        # consumer_debit/consumer_credit are legally capped EU-wide (0.20%/
-        # 0.30%, +/- a small buffer for documented rounding). A value above
-        # that ceiling in these buckets is never a genuine consumer rate --
-        # it's contamination, almost always from a commercial merchant-
-        # category table (Petrol Station, Night Club, Retailer...) whose
-        # rows don't repeat a product name and so inherit a stale "Consumer
-        # Credit" prefix carried forward from many rows above. Strip these
-        # out entirely rather than let them corrupt the range or, worse,
-        # get selected by the capped-category max-value fallback.
         if bucket in IFR_CAP and iso2 in IFR_CAPPED_ISO2:
             ceiling = IFR_CAP[bucket] + 0.02
             in_range = [v for v in row.values if v <= ceiling]
@@ -543,9 +518,19 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
                 if note not in result.warnings:
                     result.warnings.append(note)
             row = replace(row, values=in_range)
-            headline_values = [v for v in headline_values if v <= ceiling]
 
+        # NEW: channel-variant exclusion for capped consumer categories
+        channel_ok = _is_general_channel_eligible(row.label) if bucket in ("consumer_debit", "consumer_credit") else True
+
+        headline_values = [row.values[0]] if headline and channel_ok and row.values else []
+        if bucket == "commercial" and PREMIUM_COMMERCIAL_TIER_RE.search(row.label):
+            headline_values = []
+        if bucket == "consumer_debit" and NICHE_DEBIT_BRAND_RE.search(row.label):
+            headline_values = []
+
+        category_label = _clean_category_label(row.label, "|".join(PRODUCT_MARKERS)) + _additional_fee_suffix(row.raw_text or row.label)
         labeled = [(category_label, v) for v in row.values]
+
         if bucket == "consumer_credit":
             result.consumer_credit.extend(row.values)
             result.consumer_credit_headline.extend(headline_values)
@@ -563,15 +548,10 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 
     if not result.used_table_extraction:
         result.warnings.append("no ruled table detected -- fell back to text-line parsing, numbers for this country are lower confidence")
-    if not result.consumer_debit:
+    if not result.consumer_debit and not result.consumer_debit_flat_fee:
         result.warnings.append("no consumer_debit rate matched")
     if not result.consumer_credit:
         result.warnings.append("no consumer_credit rate matched")
-    if not result.commercial:
-        result.warnings.append("no commercial rate matched")
-
-    result.warnings.extend(plausibility_warnings("consumer_debit", result.consumer_debit))
-    result.warnings.extend(plausibility_warnings("consumer_credit", result.consumer_credit))
 
     return result
 
@@ -581,6 +561,7 @@ def parse_visa(pdf_bytes: bytes, iso2: str) -> CountryRateResult:
 # ---------------------------------------------------------------
 
 CATEGORIES = ["consumer_debit", "consumer_credit", "commercial"]
+CAPPED_CATEGORIES = {"consumer_debit", "consumer_credit"}
 
 
 def _stat_block(all_values: list[float], headline_values: list[float] | None = None, labeled_values: list[tuple[str, float]] | None = None, flat_fee: str | None = None):
@@ -606,16 +587,6 @@ def _stat_block(all_values: list[float], headline_values: list[float] | None = N
     return block
 
 
-# consumer_debit/consumer_credit are legally capped EU-wide (IFR Art. 3-4) at
-# 0.20%/0.30%. Any row is at or below that cap; discounted/conditional tiers
-# are always <= the standard rate, never above. So when EVERY captured row
-# for these two categories carries a tier qualifier (e.g. Spain, where both
-# the "<=EUR 20" and ">EUR 20" tiers have qualifying language), the max
-# observed value is a safe, legally-grounded proxy for the standard rate --
-# unlike commercial, which has no cap and no such guarantee.
-CAPPED_CATEGORIES = {"consumer_debit", "consumer_credit"}
-
-
 def _headline_for(category: str, all_values: list[float], headline_values: list[float], iso2: str | None = None) -> list[float]:
     if headline_values:
         return headline_values
@@ -638,7 +609,7 @@ def build_summary(results: list) -> dict[str, Any]:
                 all_vals = getattr(r, category)
                 headline = _headline_for(category, all_vals, getattr(r, f"{category}_headline", []), r.iso2)
                 block = _stat_block(all_vals, headline)
-                if block:
+                if block and block.get("avg") is not None:
                     per_country_avgs.append(block["avg"])
             if per_country_avgs:
                 network_summary[category] = {
@@ -689,8 +660,6 @@ def build_output(results: list) -> dict[str, Any]:
 
 
 def run_visa_scrape() -> list[CountryRateResult]:
-    """Full live run: discover, fetch, parse all 30 countries' Visa PDFs.
-    Needs real internet access (won't work from a network-restricted sandbox)."""
     html = fetch_html(VISA_LISTING_URL)
     if not html:
         raise RuntimeError("Could not load the Visa listing page")
