@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T11:20:17+00:00",
+  "generated_at": "2026-11-01T11:38:44+00:00",
   "scope": {
     "fee_type": "interchange",
     "networks": [
@@ -35,8 +35,8 @@
         "n_countries": 31
       },
       "commercial": {
-        "avg": 1.3145,
-        "min": 0.275,
+        "avg": 1.3138,
+        "min": 0.2667,
         "max": 2.0667,
         "n_countries": 31
       }
@@ -823,8 +823,8 @@
           "min": 0.3,
           "max": 0.3,
           "n_values": 2,
-          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard",
-          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline\nStandard"
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline⁴\nStandard",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Authorised\nElectronic Data Capture\nSecure Electronic Commerce\nCVV2\nRecurring Transactions\nCard not Present\nAirline⁴\nStandard"
         },
         "commercial": {
           "avg": 1.4167,
@@ -834,7 +834,7 @@
           "min_label": "Business Credit -\nSmall Market Expense Standard",
           "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid\nVisa Infinite Business Credit\nVisa Infinite Business Deferred Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
-        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/hungary-apr25.pdf",
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/september-2026/uk-visa-hungary-update-sep-26.pdf",
         "used_table_extraction": true,
         "warnings": [
           "rate sheet also states a cap: \"capped at HUF 20.00\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
@@ -1133,8 +1133,8 @@
           "min": 0.3,
           "max": 0.3,
           "n_values": 1,
-          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure",
-          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
+          "min_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure1\nNon-Secure"
         },
         "commercial": {
           "avg": 1.3625,
@@ -1144,7 +1144,7 @@
           "min_label": "Business Credit - Small Market\nExpense Standard",
           "max_label": "Infinite Business Debit EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard"
         },
-        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/liechtenstein-apr25.pdf",
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/september-2026/uk-visa-liechtenstein-update-sep-26.pdf",
         "used_table_extraction": true,
         "warnings": []
       },
@@ -1502,20 +1502,18 @@
           "max_label": "Consumer Credit\nVisa Consumer Deferred Debit EMV Chip\nSecure Electronic Commerce 1\nElectronic\nCard Not Present - CVV2\nCard Not Present - CNP\nStandard + PLN 20.00"
         },
         "commercial": {
-          "avg": 0.275,
+          "avg": 0.2667,
           "min": 0.01,
           "max": 0.3,
           "n_values": 37,
-          "flat_fee": "PLN 0.27",
           "min_label": "Business Debit\nVisa Business Prepaid Electronic\nStandard",
           "max_label": "Business Credit\nVisa Business Deferred Debit Electronic\nStandard + PLN 30.00"
         },
-        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/poland-apr25.pdf",
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/september-2026/uk-visa-poland-update-sep-26.pdf",
         "used_table_extraction": true,
         "warnings": [
           "rate sheet also states a cap: \"capped at PLN 0.20\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
-          "rate sheet also states a cap: \"capped at PLN 0.30\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
-          "rate sheet states a flat fee (PLN 0.27) for commercial, not a percentage -- shown as a fixed amount instead of %, not counted in the range"
+          "rate sheet also states a cap: \"capped at PLN 0.30\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)"
         ]
       },
       "mastercard": {
@@ -1617,9 +1615,9 @@
           "avg": 0.2,
           "min": 0.2,
           "max": 0.2,
-          "n_values": 2,
-          "min_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure",
-          "max_label": "Consumer Debit\nVisa Consumer Prepaid Contactless\nSecure1\nNon-Secure"
+          "n_values": 4,
+          "min_label": "Consumer Debit Contactless\nSecure1\nNon-Secure",
+          "max_label": "Consumer Debit Contactless\nSecure1\nNon-Secure"
         },
         "consumer_credit": {
           "avg": 0.3,
@@ -1630,18 +1628,18 @@
           "max_label": "Consumer Credit\nVisa Consumer Deferred Debit Contactless\nSecure\nNon-Secure"
         },
         "commercial": {
-          "avg": 1.7,
+          "avg": 1.6875,
           "min": 0.1,
           "max": 2.1,
-          "n_values": 107,
-          "min_label": "Business Credit\nVisa Business Deferred Debit EMV Chip (Incl. Contactless) 0.65 RON + RON 50",
-          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard 0.65 RON"
+          "n_values": 83,
+          "min_label": "Business Credit\nVisa Business Deferred Debit EMV Chip (Incl. Contactless) RON 0.65 + RON 50",
+          "max_label": "Infinite Business Debit\nVisa Infinite Business Prepaid EMV Chip (Incl. Contactless)\nElectronic Commerce\nStandard RON 0.65"
         },
-        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/april-25/romania-apr25.pdf",
+        "source_url": "https://www.visa.co.uk/content/dam/VCOM/regional/ve/unitedkingdom/PDF/fees-and-interchange/september-2026/uk-visa-romania-update-sep-26.pdf",
         "used_table_extraction": true,
         "warnings": [
           "rate sheet also states a cap: \"capped at RON 20.00\" (per-transaction ceiling on the absolute fee, not reflected in the % figure)",
-          "dropped 1 value(s) over 0.32% from consumer credit (e.g. 1.0%) -- looks like a mis-attributed commercial/merchant-category row, not a real consumer rate; verify against the source PDF if unsure"
+          "dropped 1 value(s) over 0.22% from consumer debit (e.g. 1.0%) -- looks like a mis-attributed commercial/merchant-category row, not a real consumer rate; verify against the source PDF if unsure"
         ]
       },
       "mastercard": {
